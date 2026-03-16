@@ -79,6 +79,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .month-cell.used{background:var(--blue-bg);border-color:rgba(37,99,235,0.2);}
 .month-cell.used .mn,.month-cell.used .mv{color:var(--blue-text);}
 .month-cell.current-month{border:2px solid var(--blue);}
+.month-cell.past-month{opacity:0.45;cursor:default;pointer-events:none;}
+.month-cell.past-month.used{opacity:0.6;}
 .month-cell.closing{background:var(--amber-bg);border-color:rgba(217,119,6,0.2);cursor:default;}
 .month-cell.closing .mn,.month-cell.closing .mv{color:var(--amber-text);}
 .month-cell.closing .mv{font-size:11px;margin-top:4px;}
@@ -94,6 +96,11 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
 .counter-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text);line-height:1;transition:background 0.15s;font-family:'DM Sans',sans-serif;}
 .counter-btn:hover{background:var(--surface2);}
 .counter-val{font-size:15px;font-weight:500;font-family:'DM Mono',monospace;min-width:20px;text-align:center;}
+
+/* CURRENT MONTH COUNTER */
+.current-month-counter{background:var(--blue-bg);border:1px solid rgba(37,99,235,0.2);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;}
+.cmc-label{font-size:13px;color:var(--blue-text);font-weight:500;}
+.cmc-sub{font-size:11px;color:var(--blue-text);opacity:0.7;margin-top:2px;}
 
 /* TIMELINE */
 .timeline{padding-left:12px;}
@@ -223,13 +230,27 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
     </div>
 
     <div class="card">
-      <div class="card-title">Traccia i giorni goduti (mar–lug)</div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">Clicca per aggiungere un giorno · clicca ancora per toglierlo (max 3/mese)</div>
+      <div class="card-title" id="grid-title">Traccia i giorni goduti</div>
+
+      <!-- Contatore mese corrente dinamico -->
+      <div class="current-month-counter" id="current-month-counter">
+        <div>
+          <div class="cmc-label" id="cmc-label">— giorni presi questo mese</div>
+          <div class="cmc-sub" id="cmc-sub">Mese corrente · clicca sulla cella per modificare</div>
+        </div>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeCurrentMonth(-1)">−</button>
+          <span class="counter-val" id="cmc-val">0</span>
+          <button class="counter-btn" onclick="changeCurrentMonth(1)">+</button>
+        </div>
+      </div>
+
+      <div style="font-size:12px;color:var(--text3);margin-bottom:4px;" id="grid-hint">Clicca su un mese futuro per aggiungere giorni previsti · max 3/mese</div>
       <div class="month-grid" id="monthGrid"></div>
 
       <hr>
       <div class="hl-row">
-        <span class="hl-key">Permessi jolly da usare ad agosto</span>
+        <span class="hl-key">Permessi jolly</span>
         <div class="counter">
           <button class="counter-btn" onclick="changeJolly(-1)">−</button>
           <span class="counter-val" id="jolly-val">3</span>
@@ -238,7 +259,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
       </div>
 
       <hr>
-      <div class="card-title">Proiezione mensile</div>
+      <div class="card-title" id="proj-title">Proiezione mensile</div>
       <div id="projection-rows"></div>
 
       <hr>
@@ -333,7 +354,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
         <div class="metric-sub">€/mese · da sett. 2028</div>
       </div>
     </div>
-    <div class="card">
+    <!-- <div class="card">
       <div class="card-title">Dettaglio busta paga – febbraio 2026</div>
       <div class="hl-row"><span class="hl-key">Lordo mensile</span><span class="hl-val">1.769,56 €</span></div>
       <div class="hl-row"><span class="hl-key">Contributi INPS (5,84%)</span><span class="hl-val">− 103,37 €</span></div>
@@ -348,7 +369,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
       <div class="info-box info-box-blue" style="margin-top:12px;">
         TFR maturato annuo: <strong>262,16 €</strong> · versato a fondo pensione
       </div>
-    </div>
+    </div> -->
     <div class="card">
       <div class="card-title">Evoluzione stipendio netto</div>
       <div id="salary-bars"></div>
@@ -365,9 +386,21 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
       <div class="timeline">
         <div class="tl-item">
           <div class="tl-dot now"></div>
-          <div class="tl-date">Marzo 2026</div>
+          <div class="tl-date" id="tl-now-date">—</div>
           <div class="tl-label">Ora</div>
           <div class="tl-sub" id="tl-now-sub">—</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot money"></div>
+          <div class="tl-date">3 aprile 2026</div>
+          <div class="tl-label">Chiusura aziendale – Pasqua</div>
+          <div class="tl-sub">Giorno di chiusura aziendale per le festività pasquali</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot money"></div>
+          <div class="tl-date">1 giugno 2026</div>
+          <div class="tl-label">Chiusura aziendale – Ponte</div>
+          <div class="tl-sub">Giorno di ponte aziendale</div>
         </div>
         <div class="tl-item">
           <div class="tl-dot"></div>
@@ -376,28 +409,10 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
           <div class="tl-sub" id="tl-aug-sub">—</div>
         </div>
         <div class="tl-item">
-          <div class="tl-dot money"></div>
-          <div class="tl-date">1 settembre 2026</div>
-          <div class="tl-label">Aumento stipendio (90%)</div>
-          <div class="tl-sub">Netto: da ~1.530 a ~1.590 €/mese · +82 € lordi</div>
-        </div>
-        <div class="tl-item">
           <div class="tl-dot"></div>
           <div class="tl-date">1 gennaio 2027</div>
           <div class="tl-label">Rinnovo permessi jolly</div>
           <div class="tl-sub">Nuovi 3 giorni personali disponibili per il 2027</div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot money"></div>
-          <div class="tl-date">1 settembre 2027</div>
-          <div class="tl-label">Aumento stipendio (95%)</div>
-          <div class="tl-sub">Netto: ~1.680 €/mese · 3° anno apprendistato</div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot money"></div>
-          <div class="tl-date">1 settembre 2028</div>
-          <div class="tl-label">Fine apprendistato · 100% tabellare</div>
-          <div class="tl-sub">Lordo: 2.057,63 € · Netto apprendista: ~1.780 € · Netto indeterminato: ~1.710 €</div>
         </div>
       </div>
     </div>
@@ -406,36 +421,51 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
 </div>
 
 <script>
-let DAILY=7.2, ACCRUAL=18.67, INITIAL=23.67, CLOSING=15, MAX_JOLLY=3;
-let used=[0,1,1,0,0], jolly=3;
+// ─── COSTANTI MESI TRACCIATI (Mar=2 … Lug=6, indice 0-based del mese JS) ───
+const TRACKED_MONTHS = [2, 3, 4, 5, 6]; // Mar Apr Mag Giu Lug (JS: 0=Jan)
+const MONTH_SHORT    = ['Gen','Feb','Mar','Apr','Mag','Giu','Lug','Ago','Set','Ott','Nov','Dic'];
+const MONTH_FULL     = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 
-const months=['Mar','Apr','Mag','Giu','Lug'];
-const fullMonths=['Marzo','Aprile','Maggio','Giugno','Luglio'];
+// Mese corrente (0-based JS)
+const NOW_MONTH = new Date().getMonth(); // 0=Gen … 6=Lug …
+const NOW_YEAR  = new Date().getFullYear();
 
+// Indice dentro TRACKED_MONTHS del mese corrente (-1 se fuori range)
+const CURRENT_IDX = TRACKED_MONTHS.indexOf(NOW_MONTH);
+
+// ─── STATO ───
+let DAILY=7.2, ACCRUAL=18.67, INITIAL=23.67/7.2, CLOSING=15, MAX_JOLLY=3;
+let used=[0,0,0,0,0]; // un valore per ogni mese in TRACKED_MONTHS
+let jolly=3;
+
+// ─── HELPERS ───
 function initials(name){
   return name.trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'??';
 }
 
+function ferieOreToGiorni(ore, daily){ return daily>0 ? ore/daily : 0; }
+
 function calcFerieGiorni(){
   const ore=parseFloat(document.getElementById('s-ferie-ore').value)||0;
   const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
-  const giorni=daily>0?(ore/daily):0;
-  document.getElementById('s-ferie-giorni-preview').textContent=ore>0?`= ${giorni.toFixed(1)} giorni`:'= — giorni';
+  const g=ferieOreToGiorni(ore,daily);
+  document.getElementById('s-ferie-giorni-preview').textContent=ore>0?`= ${g.toFixed(1)} giorni`:'= — giorni';
 }
 
 function calcAccrualGiorni(){
   const ore=parseFloat(document.getElementById('s-accrual').value)||0;
   const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
-  const giorni=daily>0?(ore/daily):0;
-  document.getElementById('s-accrual-giorni-preview').textContent=ore>0?`= ${giorni.toFixed(1)} giorni`:'= — giorni';
+  const g=ferieOreToGiorni(ore,daily);
+  document.getElementById('s-accrual-giorni-preview').textContent=ore>0?`= ${g.toFixed(1)} giorni`:'= — giorni';
 }
 
+// ─── SETUP ───
 function applySetup(){
   const name=document.getElementById('s-name').value.trim();
   const role=document.getElementById('s-role').value.trim();
   const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
   const ferieOre=parseFloat(document.getElementById('s-ferie-ore').value)||0;
-  const ferie=ferieOre/daily;
+  const ferie=ferieOreToGiorni(ferieOre, daily);
   const accrual=parseFloat(document.getElementById('s-accrual').value)||18.67;
   const closing=parseInt(document.getElementById('s-closing').value)||15;
   const maxJolly=parseInt(document.getElementById('s-jolly').value)||3;
@@ -477,13 +507,23 @@ function openSetup(){
 }
 
 function loadConfig(d){
-  DAILY=d.daily;ACCRUAL=d.accrual;INITIAL=d.ferie;CLOSING=d.closing;MAX_JOLLY=d.maxJolly;
+  DAILY=d.daily;
+  ACCRUAL=d.accrual;
+  INITIAL=d.ferie;
+  CLOSING=d.closing;
+  MAX_JOLLY=d.maxJolly;
+
   document.getElementById('h-name').textContent=d.name;
   document.getElementById('h-role').textContent=d.role||'CCNL Formazione Professionale';
   document.getElementById('h-avatar').textContent=initials(d.name);
   document.getElementById('m-residue').textContent=(d.ferie).toFixed(1);
   document.getElementById('m-accrual').textContent=(d.accrual/d.daily).toFixed(1);
   document.getElementById('m-jolly').textContent=d.maxJolly;
+
+  // Timeline dinamica
+  const nowLabel = `${MONTH_FULL[NOW_MONTH]} ${NOW_YEAR}`;
+  const tlNowDate = document.getElementById('tl-now-date');
+  if(tlNowDate) tlNowDate.textContent = nowLabel;
   document.getElementById('tl-now-sub').textContent=`Ferie residue: ${d.ferie.toFixed(1)} gg · Netto: ~1.530 €/mese`;
   document.getElementById('tl-aug-sub').textContent=`${d.closing} giorni lavorativi · usa i ${d.maxJolly} jolly per conservare ferie`;
   document.title=`Dashboard – ${d.name}`;
@@ -496,6 +536,7 @@ function showTab(name,btn){
   btn.classList.add('active');
 }
 
+// ─── JOLLY ───
 function changeJolly(d){
   jolly=Math.max(0,Math.min(MAX_JOLLY,jolly+d));
   document.getElementById('jolly-val').textContent=jolly;
@@ -503,59 +544,127 @@ function changeJolly(d){
   update();
 }
 
+// ─── GRIGLIA MESI ───
 function buildGrid(){
   const grid=document.getElementById('monthGrid');
   grid.innerHTML='';
-  months.forEach((m,i)=>{
+
+  // Aggiorna il contatore del mese corrente
+  if(CURRENT_IDX !== -1){
+    document.getElementById('cmc-val').textContent = used[CURRENT_IDX];
+    document.getElementById('cmc-label').textContent =
+      `${used[CURRENT_IDX]} giorn${used[CURRENT_IDX]===1?'o':'i'} pres${used[CURRENT_IDX]===1?'o':'i'} a ${MONTH_FULL[NOW_MONTH]}`;
+  } else {
+    // Fuori dal range Mar-Lug: nascondi il contatore
+    document.getElementById('current-month-counter').style.display='none';
+  }
+
+  // Titolo dinamico
+  const firstFuture = TRACKED_MONTHS.find(m => m >= NOW_MONTH);
+  if(firstFuture !== undefined){
+    document.getElementById('grid-title').textContent =
+      `Traccia i giorni goduti · da ${MONTH_SHORT[TRACKED_MONTHS[0]]} a ${MONTH_SHORT[TRACKED_MONTHS[TRACKED_MONTHS.length-1]]}`;
+    document.getElementById('grid-hint').textContent =
+      NOW_MONTH <= TRACKED_MONTHS[TRACKED_MONTHS.length-1]
+        ? `Usa i ± per il mese corrente · clicca sui mesi futuri per i giorni pianificati (max 3)`
+        : `Tutti i mesi tracciati sono già passati`;
+  }
+
+  TRACKED_MONTHS.forEach((m, i)=>{
+    const isPast    = m < NOW_MONTH;
+    const isCurrent = m === NOW_MONTH;
+    const isFuture  = m > NOW_MONTH;
+
     const c=document.createElement('div');
-    c.className='month-cell'+(i===0?' current-month':'')+(used[i]>0?' used':'');
-    c.innerHTML=`<div class="mn">${m}</div><div class="mv">${used[i]}gg</div>`;
-    c.onclick=()=>{used[i]=(used[i]>=3)?0:used[i]+1;localStorage.setItem('dashUsed',JSON.stringify(used));buildGrid();update();};
+    let cls='month-cell';
+    if(isPast)    cls+=' past-month';
+    if(isCurrent) cls+=' current-month';
+    if(used[i]>0) cls+=' used';
+
+    c.className=cls;
+    c.innerHTML=`<div class="mn">${MONTH_SHORT[m]}</div><div class="mv">${used[i]}gg</div>`;
+
+    // Click: solo mesi futuri (il corrente si gestisce col contatore)
+    if(isFuture){
+      c.onclick=()=>{
+        used[i]=(used[i]>=3)?0:used[i]+1;
+        localStorage.setItem('dashUsed',JSON.stringify(used));
+        buildGrid();
+        update();
+      };
+    } else if(isPast){
+      c.title='Mese passato — modifica i dati di setup se necessario';
+    }
+
     grid.appendChild(c);
   });
+
+  // Cella fissa agosto (chiusura)
   const aug=document.createElement('div');
   aug.className='month-cell closing';
   aug.innerHTML=`<div class="mn">Ago</div><div class="mv">chiusura</div>`;
   grid.appendChild(aug);
 }
 
+// ─── AGGIORNAMENTO PROIEZIONE ───
 function update(){
-  let bal=INITIAL;
-  let projHtml='';
-  for(let i=0;i<5;i++){
-    bal+=ACCRUAL;
-    bal-=used[i]*DAILY;
-    projHtml+=`<div class="hl-row"><span class="hl-key">${fullMonths[i]}</span><span class="hl-val">${(bal/DAILY).toFixed(1)} giorni</span></div>`;
+  let bal = INITIAL; // giorni iniziali (già convertiti da ore)
+  let projHtml = '';
+
+  // Calcola mesi passati prima del range corrente (già consumati)
+  // Per i mesi passati tracciati, li includiamo nel saldo ma non li mostriamo come "futuri"
+  for(let i=0; i<TRACKED_MONTHS.length; i++){
+    const m = TRACKED_MONTHS[i];
+    const isPast    = m < NOW_MONTH;
+    const isCurrent = m === NOW_MONTH;
+    const isFuture  = m > NOW_MONTH;
+
+    bal += ACCRUAL / DAILY; // accumulo mensile in giorni
+    bal -= used[i];         // giorni goduti
+
+    // Mostra nella proiezione: mese corrente e futuri
+    if(isCurrent || isFuture){
+      const label = isPast ? `${MONTH_FULL[m]} (passato)` : MONTH_FULL[m];
+      const style = isCurrent ? 'font-weight:500;color:var(--text)' : '';
+      projHtml += `<div class="hl-row">
+        <span class="hl-key" style="${style}">${MONTH_FULL[m]}${isCurrent?' ← ora':''}</span>
+        <span class="hl-val">${bal.toFixed(1)} giorni</span>
+      </div>`;
+    }
   }
-  bal+=ACCRUAL;
-  const jollyH=jolly*DAILY;
-  const ferieUsed=(CLOSING*DAILY)-jollyH;
-  const after=bal-ferieUsed;
-  const afterDays=after/DAILY;
-  const accrualDays=ACCRUAL/DAILY;
 
-  document.getElementById('projection-rows').innerHTML=projHtml;
-  document.getElementById('sett-result').textContent=afterDays.toFixed(1)+' gg';
+  // Agosto: accumulo + uso chiusura
+  bal += ACCRUAL / DAILY;
+  const jollyH = jolly * DAILY;
+  const ferieUsedAgo = Math.max(0, (CLOSING * DAILY) - jollyH) / DAILY;
+  const after = bal - ferieUsedAgo;
+  const accrualDays = ACCRUAL / DAILY;
 
-  const note=afterDays>0
-    ?`+ la maturazione di settembre (${accrualDays.toFixed(1)} gg) porta subito a ${(afterDays+accrualDays).toFixed(1)} gg disponibili.`
-    :`Attenzione: le ferie non coprono agosto. Mancano ${Math.abs(afterDays).toFixed(1)} giorni.`;
-  const noteEl=document.getElementById('sett-note');
-  noteEl.textContent=note;
-  noteEl.className='info-box '+(afterDays>=0?'info-box-green':'info-box-red');
+  document.getElementById('projection-rows').innerHTML = projHtml || '<div style="font-size:13px;color:var(--text3);padding:8px 0;">Nessun mese futuro da mostrare prima di agosto.</div>';
 
-  document.getElementById('agosto-text').textContent=
-    `Chiusura: ${CLOSING} gg × ${DAILY}h = ${CLOSING*DAILY}h totali  ·  Jolly: ${jolly} gg (${jollyH.toFixed(0)}h)  ·  Ferie da usare: ${Math.max(0,ferieUsed).toFixed(0)}h`;
+  document.getElementById('sett-result').textContent = after.toFixed(1)+' gg';
 
-  const pct=bal>0?Math.min(100,Math.max(0,(after/bal)*100)):0;
-  document.getElementById('agosto-bar').style.width=pct.toFixed(0)+'%';
-  document.getElementById('agosto-bar-label').textContent=`Rimane il ${pct.toFixed(0)}% delle ferie disponibili dopo agosto`;
+  const note = after >= 0
+    ? `+ la maturazione di settembre (${accrualDays.toFixed(1)} gg) porta subito a ${(after+accrualDays).toFixed(1)} gg disponibili.`
+    : `Attenzione: le ferie non coprono agosto. Mancano ${Math.abs(after).toFixed(1)} giorni.`;
+  const noteEl = document.getElementById('sett-note');
+  noteEl.textContent = note;
+  noteEl.className = 'info-box '+(after>=0?'info-box-green':'info-box-red');
 
-  const totalGodute=used.reduce((a,b)=>a+b,0);
-  document.getElementById('m-godute').textContent=totalGodute;
-  document.getElementById('m-jolly').textContent=Math.max(0,MAX_JOLLY-jolly);
+  // Card agosto
+  document.getElementById('agosto-text').textContent =
+    `Chiusura: ${CLOSING} gg × ${DAILY}h = ${CLOSING*DAILY}h totali  ·  Jolly: ${jolly} gg (${jollyH.toFixed(0)}h)  ·  Ferie da usare: ${Math.max(0,ferieUsedAgo).toFixed(1)} gg`;
+
+  const pct = bal>0 ? Math.min(100, Math.max(0,(after/bal)*100)) : 0;
+  document.getElementById('agosto-bar').style.width = pct.toFixed(0)+'%';
+  document.getElementById('agosto-bar-label').textContent = `Rimane il ${pct.toFixed(0)}% delle ferie disponibili dopo agosto`;
+
+  const totalGodute = used.reduce((a,b)=>a+b, 0);
+  document.getElementById('m-godute').textContent = totalGodute;
+  document.getElementById('m-jolly').textContent = Math.max(0, MAX_JOLLY - jolly);
 }
 
+// ─── ANNI / SALARY ───
 function buildAnni(){
   const anni=[
     {label:'1° anno (ora – ago 2026)',pct:86,netto:1530,active:true},
@@ -598,7 +707,7 @@ function buildSalaryBars(){
   document.getElementById('salary-bars').innerHTML=h;
 }
 
-// BOOT: check localStorage
+// ─── BOOT ───
 (function(){
   const saved=localStorage.getItem('dashConfig');
   if(saved){
@@ -613,7 +722,7 @@ function buildSalaryBars(){
     document.getElementById('app').style.display='block';
     buildGrid();update();buildAnni();buildSalaryBars();
   } else {
-    // pre-fill with Federico's data as defaults
+    // Pre-fill con i dati di Federico come default
     document.getElementById('s-name').value='Federico Pozzi';
     document.getElementById('s-role').value='Apprendista formatore · 5° liv. CCNL FP · Milano';
     document.getElementById('s-ferie-ore').value='23.67';
