@@ -140,16 +140,28 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
     <label class="setup-label">Ruolo / qualifica</label>
     <input class="setup-input" id="s-role" type="text" placeholder="es. Apprendista formatore · 5° liv. CCNL FP" value="">
 
-    <label class="setup-label">Ferie residue ad oggi (giorni)</label>
-    <input class="setup-input" id="s-ferie" type="number" step="0.1" min="0" placeholder="es. 3.3" value="">
-
-    <label class="setup-label">Ore di ferie accumulate al mese</label>
-    <input class="setup-input" id="s-accrual" type="number" step="0.1" min="0" placeholder="es. 18.67" value="">
+    <label class="setup-label">Ferie residue ad oggi (ore)</label>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;">
+      <input class="setup-input" id="s-ferie-ore" type="number" step="0.01" min="0" placeholder="es. 23.67" oninput="calcFerieGiorni()" value="">
+      <span id="s-ferie-giorni-preview" style="font-size:13px;color:var(--text3);white-space:nowrap;font-family:'DM Mono',sans-serif;min-width:70px;">= — giorni</span>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;">
+      Dove trovo questo dato? Apri la tua <strong>busta paga</strong> e cerca la sezione <strong>RATEI</strong> in fondo al foglio. Nella riga <em>Ferie</em> trovi le colonne Maturato · Goduto · <strong>Residuo</strong> · Residuo AP. Il numero sotto <strong>Residuo</strong> è quello da inserire qui (es. 23,66666 ORE).
+    </div>
 
     <label class="setup-label">Ore lavorative al giorno</label>
-    <input class="setup-input" id="s-daily" type="number" step="0.1" min="1" placeholder="es. 7.2" value="">
+    <input class="setup-input" id="s-daily" type="number" step="0.1" min="1" placeholder="es. 7.2 (36h sett. ÷ 5 giorni)" oninput="calcFerieGiorni()" value="">
 
-    <div class="setup-row">
+    <label class="setup-label">Ore di ferie accumulate al mese</label>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;">
+      <input class="setup-input" id="s-accrual" type="number" step="0.01" min="0" placeholder="es. 18.67" oninput="calcAccrualGiorni()" value="">
+      <span id="s-accrual-giorni-preview" style="font-size:13px;color:var(--text3);white-space:nowrap;font-family:'DM Mono',sans-serif;min-width:70px;">= — giorni</span>
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-top:5px;line-height:1.5;background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;">
+      Stesso campo RATEI: guarda il valore nella colonna <strong>Maturato</strong> di un mese qualsiasi in cui non hai preso ferie — quello è il tuo accumulo mensile in ore.
+    </div>
+
+    <div class="setup-row" style="margin-top:14px;">
       <div>
         <label class="setup-label">Giorni chiusura agosto</label>
         <input class="setup-input" id="s-closing" type="number" min="0" placeholder="es. 15" value="">
@@ -404,18 +416,33 @@ function initials(name){
   return name.trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'??';
 }
 
+function calcFerieGiorni(){
+  const ore=parseFloat(document.getElementById('s-ferie-ore').value)||0;
+  const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
+  const giorni=daily>0?(ore/daily):0;
+  document.getElementById('s-ferie-giorni-preview').textContent=ore>0?`= ${giorni.toFixed(1)} giorni`:'= — giorni';
+}
+
+function calcAccrualGiorni(){
+  const ore=parseFloat(document.getElementById('s-accrual').value)||0;
+  const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
+  const giorni=daily>0?(ore/daily):0;
+  document.getElementById('s-accrual-giorni-preview').textContent=ore>0?`= ${giorni.toFixed(1)} giorni`:'= — giorni';
+}
+
 function applySetup(){
   const name=document.getElementById('s-name').value.trim();
   const role=document.getElementById('s-role').value.trim();
-  const ferie=parseFloat(document.getElementById('s-ferie').value)||3.3;
-  const accrual=parseFloat(document.getElementById('s-accrual').value)||18.67;
   const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
+  const ferieOre=parseFloat(document.getElementById('s-ferie-ore').value)||0;
+  const ferie=ferieOre/daily;
+  const accrual=parseFloat(document.getElementById('s-accrual').value)||18.67;
   const closing=parseInt(document.getElementById('s-closing').value)||15;
   const maxJolly=parseInt(document.getElementById('s-jolly').value)||3;
 
   if(!name){alert('Inserisci il tuo nome!');return;}
 
-  const data={name,role,ferie,accrual,daily,closing,maxJolly};
+  const data={name,role,ferie,ferieOre,accrual,daily,closing,maxJolly};
   localStorage.setItem('dashConfig',JSON.stringify(data));
   localStorage.setItem('dashUsed',JSON.stringify([0,0,0,0,0]));
   localStorage.setItem('dashJolly',String(maxJolly));
@@ -438,11 +465,13 @@ function openSetup(){
     const d=JSON.parse(saved);
     document.getElementById('s-name').value=d.name||'';
     document.getElementById('s-role').value=d.role||'';
-    document.getElementById('s-ferie').value=d.ferie||'';
-    document.getElementById('s-accrual').value=d.accrual||'';
     document.getElementById('s-daily').value=d.daily||'';
+    document.getElementById('s-ferie-ore').value=d.ferieOre||'';
+    document.getElementById('s-accrual').value=d.accrual||'';
     document.getElementById('s-closing').value=d.closing||'';
     document.getElementById('s-jolly').value=d.maxJolly||'';
+    calcFerieGiorni();
+    calcAccrualGiorni();
   }
   document.getElementById('overlay').style.display='flex';
 }
@@ -587,11 +616,13 @@ function buildSalaryBars(){
     // pre-fill with Federico's data as defaults
     document.getElementById('s-name').value='Federico Pozzi';
     document.getElementById('s-role').value='Apprendista formatore · 5° liv. CCNL FP · Milano';
-    document.getElementById('s-ferie').value='3.3';
+    document.getElementById('s-ferie-ore').value='23.67';
     document.getElementById('s-accrual').value='18.67';
     document.getElementById('s-daily').value='7.2';
     document.getElementById('s-closing').value='15';
     document.getElementById('s-jolly').value='3';
+    calcFerieGiorni();
+    calcAccrualGiorni();
   }
 })();
 </script>
