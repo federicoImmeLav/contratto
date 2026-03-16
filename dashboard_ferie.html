@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Ferie</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f5f3ef;--surface:#fff;--surface2:#f0ede8;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);
+  --text:#1a1a18;--text2:#6b6b66;--text3:#9e9e99;
+  --blue:#2563eb;--blue-bg:#eff4ff;--blue-text:#1d4ed8;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-text:#15803d;
+  --amber:#d97706;--amber-bg:#fffbeb;--amber-text:#b45309;
+  --red:#dc2626;--red-bg:#fef2f2;--red-text:#b91c1c;
+  --radius:12px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:2rem 1rem;}
+.container{max-width:900px;margin:0 auto;}
+
+/* SETUP OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(245,243,239,0.96);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;}
+.setup-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem;width:100%;max-width:480px;}
+.setup-title{font-size:20px;font-weight:500;margin-bottom:4px;}
+.setup-sub{font-size:13px;color:var(--text2);margin-bottom:1.5rem;}
+.setup-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;margin-top:14px;display:block;}
+.setup-input{width:100%;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);background:var(--surface);outline:none;}
+.setup-input:focus{border-color:var(--blue);}
+.setup-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.setup-btn{margin-top:1.5rem;width:100%;padding:10px;background:var(--text);color:#fff;border:none;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:opacity 0.15s;}
+.setup-btn:hover{opacity:0.85;}
+.setup-note{font-size:11px;color:var(--text3);margin-top:10px;text-align:center;}
+
+/* HEADER */
+.header{display:flex;align-items:center;gap:16px;margin-bottom:1.5rem;background:var(--surface);border-radius:var(--radius);padding:1.25rem 1.5rem;border:1px solid var(--border);}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-weight:500;font-size:15px;color:var(--blue-text);flex-shrink:0;}
+.header-info h1{font-size:17px;font-weight:500;}
+.header-info p{font-size:13px;color:var(--text2);margin-top:2px;}
+.edit-btn{margin-left:auto;font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;color:var(--text2);font-family:'DM Sans',sans-serif;transition:background 0.15s;}
+.edit-btn:hover{background:var(--surface2);}
+
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap;}
+.tab{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:400;padding:6px 14px;border-radius:99px;border:1px solid var(--border2);background:var(--surface);cursor:pointer;color:var(--text2);transition:all 0.15s;}
+.tab:hover{background:var(--surface2);color:var(--text);}
+.tab.active{background:var(--text);color:#fff;border-color:var(--text);}
+.section{display:none;}.section.active{display:block;}
+
+/* METRIC CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:12px;}
+.metric-card{background:var(--surface);border-radius:var(--radius-sm);border:1px solid var(--border);padding:1rem 1.1rem;}
+.metric-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.metric-value{font-size:26px;font-weight:300;color:var(--text);font-family:'DM Mono',monospace;}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+
+/* CARD */
+.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:10px;}
+.card-title{font-size:13px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:14px;}
+
+/* HL ROWS */
+.hl-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.hl-row:last-child{border-bottom:none;}
+.hl-key{color:var(--text2);}.hl-val{font-weight:500;color:var(--text);text-align:right;}
+
+/* BADGE */
+.badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;}
+.badge-blue{background:var(--blue-bg);color:var(--blue-text);}
+.badge-green{background:var(--green-bg);color:var(--green-text);}
+.badge-amber{background:var(--amber-bg);color:var(--amber-text);}
+
+/* MONTH GRID */
+.month-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0;}
+.month-cell{border-radius:var(--radius-sm);padding:8px 4px;text-align:center;border:1px solid var(--border);cursor:pointer;transition:all 0.15s;user-select:none;}
+.month-cell:hover{border-color:var(--border2);background:var(--surface2);}
+.month-cell .mn{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em;}
+.month-cell .mv{font-size:16px;font-weight:500;font-family:'DM Mono',monospace;color:var(--text);margin-top:2px;}
+.month-cell.used{background:var(--blue-bg);border-color:rgba(37,99,235,0.2);}
+.month-cell.used .mn,.month-cell.used .mv{color:var(--blue-text);}
+.month-cell.current-month{border:2px solid var(--blue);}
+.month-cell.closing{background:var(--amber-bg);border-color:rgba(217,119,6,0.2);cursor:default;}
+.month-cell.closing .mn,.month-cell.closing .mv{color:var(--amber-text);}
+.month-cell.closing .mv{font-size:11px;margin-top:4px;}
+
+/* BAR */
+.bar-wrap{background:var(--surface2);border-radius:99px;height:6px;margin:8px 0 3px;overflow:hidden;}
+.bar{height:6px;border-radius:99px;transition:width 0.4s;}
+
+hr{border:none;border-top:1px solid var(--border);margin:14px 0;}
+
+/* COUNTER */
+.counter{display:flex;align-items:center;gap:8px;}
+.counter-btn{width:26px;height:26px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;color:var(--text);line-height:1;transition:background 0.15s;font-family:'DM Sans',sans-serif;}
+.counter-btn:hover{background:var(--surface2);}
+.counter-val{font-size:15px;font-weight:500;font-family:'DM Mono',monospace;min-width:20px;text-align:center;}
+
+/* TIMELINE */
+.timeline{padding-left:12px;}
+.tl-item{position:relative;padding:0 0 16px 20px;border-left:1px solid var(--border);}
+.tl-item:last-child{border-left:none;padding-bottom:0;}
+.tl-dot{position:absolute;left:-5px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--surface2);border:1px solid var(--border2);}
+.tl-dot.now{background:var(--blue);border-color:var(--blue);}
+.tl-dot.money{background:var(--amber);border-color:var(--amber);}
+.tl-date{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.tl-label{font-size:14px;font-weight:500;margin:2px 0;}
+.tl-sub{font-size:12px;color:var(--text2);}
+
+/* INFO BOX */
+.info-box{border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;line-height:1.5;margin-top:10px;}
+.info-box-blue{background:var(--blue-bg);color:var(--blue-text);}
+.info-box-green{background:var(--green-bg);color:var(--green-text);}
+.info-box-amber{background:var(--amber-bg);color:var(--amber-text);}
+.info-box-red{background:var(--red-bg);color:var(--red-text);}
+
+/* SALARY */
+.salary-row{margin-bottom:14px;}
+.salary-row-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;}
+.salary-row-label{color:var(--text2);}
+.salary-row-val{font-weight:500;font-family:'DM Mono',monospace;}
+
+@media(max-width:500px){
+  .month-grid{grid-template-columns:repeat(3,1fr);}
+  .cards-grid{grid-template-columns:repeat(2,1fr);}
+  .setup-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SETUP OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="setup-card">
+    <div class="setup-title">Benvenuto nella dashboard ferie</div>
+    <div class="setup-sub">Inserisci i tuoi dati per personalizzare la dashboard. Tutto viene salvato nel browser — nessun dato viene inviato a server esterni.</div>
+
+    <label class="setup-label">Nome e cognome</label>
+    <input class="setup-input" id="s-name" type="text" placeholder="es. Mario Rossi" value="">
+
+    <label class="setup-label">Ruolo / qualifica</label>
+    <input class="setup-input" id="s-role" type="text" placeholder="es. Apprendista formatore · 5° liv. CCNL FP" value="">
+
+    <label class="setup-label">Ferie residue ad oggi (giorni)</label>
+    <input class="setup-input" id="s-ferie" type="number" step="0.1" min="0" placeholder="es. 3.3" value="">
+
+    <label class="setup-label">Ore di ferie accumulate al mese</label>
+    <input class="setup-input" id="s-accrual" type="number" step="0.1" min="0" placeholder="es. 18.67" value="">
+
+    <label class="setup-label">Ore lavorative al giorno</label>
+    <input class="setup-input" id="s-daily" type="number" step="0.1" min="1" placeholder="es. 7.2" value="">
+
+    <div class="setup-row">
+      <div>
+        <label class="setup-label">Giorni chiusura agosto</label>
+        <input class="setup-input" id="s-closing" type="number" min="0" placeholder="es. 15" value="">
+      </div>
+      <div>
+        <label class="setup-label">Permessi jolly annui</label>
+        <input class="setup-input" id="s-jolly" type="number" min="0" max="10" placeholder="es. 3" value="">
+      </div>
+    </div>
+
+    <button class="setup-btn" onclick="applySetup()">Avvia la dashboard</button>
+    <div class="setup-note">I dati vengono salvati in localStorage e restano anche dopo aver chiuso il browser.</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="container" id="app" style="display:none;">
+
+  <div class="header">
+    <div class="avatar" id="h-avatar">??</div>
+    <div class="header-info">
+      <h1 id="h-name">—</h1>
+      <p id="h-role">—</p>
+    </div>
+    <button class="edit-btn" onclick="openSetup()">modifica profilo</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('ferie',this)">Ferie</button>
+    <button class="tab" onclick="showTab('permessi',this)">Permessi</button>
+    <button class="tab" onclick="showTab('contratto',this)">Contratto</button>
+    <button class="tab" onclick="showTab('stipendio',this)">Stipendio</button>
+    <button class="tab" onclick="showTab('eventi',this)">Prossimi eventi</button>
+  </div>
+
+  <!-- TAB FERIE -->
+  <div id="tab-ferie" class="section active">
+    <div class="cards-grid">
+      <div class="metric-card">
+        <div class="metric-label">Ferie residue</div>
+        <div class="metric-value" id="m-residue">—</div>
+        <div class="metric-sub">giorni disponibili ora</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Accumulo mensile</div>
+        <div class="metric-value" id="m-accrual">—</div>
+        <div class="metric-sub">giorni ogni mese</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Godute (dal tracciamento)</div>
+        <div class="metric-value" id="m-godute">0</div>
+        <div class="metric-sub">giorni segnati come usati</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Jolly rimasti</div>
+        <div class="metric-value" id="m-jolly">—</div>
+        <div class="metric-sub">permessi personali annui</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Traccia i giorni goduti (mar–lug)</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:4px;">Clicca per aggiungere un giorno · clicca ancora per toglierlo (max 3/mese)</div>
+      <div class="month-grid" id="monthGrid"></div>
+
+      <hr>
+      <div class="hl-row">
+        <span class="hl-key">Permessi jolly da usare ad agosto</span>
+        <div class="counter">
+          <button class="counter-btn" onclick="changeJolly(-1)">−</button>
+          <span class="counter-val" id="jolly-val">3</span>
+          <button class="counter-btn" onclick="changeJolly(1)">+</button>
+        </div>
+      </div>
+
+      <hr>
+      <div class="card-title">Proiezione mensile</div>
+      <div id="projection-rows"></div>
+
+      <hr>
+      <div class="hl-row">
+        <span class="hl-key" style="font-weight:500;">Ferie stimate inizio settembre</span>
+        <span class="hl-val" id="sett-result" style="font-size:17px;font-family:'DM Mono',monospace;"></span>
+      </div>
+      <div class="info-box" id="sett-note"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Chiusura agosto</div>
+      <div id="agosto-text" style="font-size:13px;color:var(--text2);margin-bottom:10px;"></div>
+      <div class="bar-wrap">
+        <div class="bar" id="agosto-bar" style="background:var(--blue);"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);" id="agosto-bar-label"></div>
+    </div>
+  </div>
+
+  <!-- TAB PERMESSI -->
+  <div id="tab-permessi" class="section">
+    <div class="card">
+      <div class="card-title">Permessi retribuiti (CCNL art. 47)</div>
+      <div class="hl-row"><span class="hl-key">Permessi personali / familiari</span><span class="hl-val badge badge-blue">3 gg/anno</span></div>
+      <div class="hl-row"><span class="hl-key">Per esami o concorsi pubblici</span><span class="hl-val badge badge-blue">8 gg/anno</span></div>
+      <div class="hl-row"><span class="hl-key">Per lutto (parenti 1°–2° grado)</span><span class="hl-val badge badge-blue">3 gg per evento</span></div>
+      <div class="hl-row"><span class="hl-key">Giudice popolare</span><span class="hl-val">per tutta la durata</span></div>
+      <div class="info-box info-box-blue" style="margin-top:12px;">
+        I permessi <strong>non riducono le ferie</strong>, sono retribuiti normalmente e valgono ai fini dell'anzianità. Vanno documentati.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Rinnovo permessi</div>
+      <div class="hl-row"><span class="hl-key">I 3 giorni jolly si rinnovano</span><span class="hl-val">1° gennaio ogni anno</span></div>
+      <div class="hl-row"><span class="hl-key">I giorni inutilizzati</span><span class="hl-val">scadono il 31 dicembre</span></div>
+      <div class="info-box info-box-amber" style="margin-top:10px;">
+        Non rischiare di perdere i jolly inutilizzati: usali entro fine anno!
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB CONTRATTO -->
+  <div id="tab-contratto" class="section">
+    <div class="card">
+      <div class="card-title">Dati principali</div>
+      <div class="hl-row"><span class="hl-key">Qualifica</span><span class="hl-val">Formatore – apprendista</span></div>
+      <div class="hl-row"><span class="hl-key">Livello</span><span class="hl-val">5° livello CCNL FP</span></div>
+      <div class="hl-row"><span class="hl-key">Azienda</span><span class="hl-val">Immaginazione e Lavoro Soc. Coop.</span></div>
+      <div class="hl-row"><span class="hl-key">Sede</span><span class="hl-val">Via Privata Miramare 15 – Milano</span></div>
+      <div class="hl-row"><span class="hl-key">Inizio apprendistato</span><span class="hl-val">1 settembre 2025</span></div>
+      <div class="hl-row"><span class="hl-key">Fine apprendistato</span><span class="hl-val">31 agosto 2028</span></div>
+      <div class="hl-row"><span class="hl-key">Orario settimanale</span><span class="hl-val">36 ore (7,2h/giorno · 5gg)</span></div>
+      <div class="hl-row"><span class="hl-key">Prossimo scatto</span><span class="hl-val">Settembre 2029</span></div>
+      <div class="hl-row"><span class="hl-key">Preavviso dimissioni</span><span class="hl-val">45 giorni</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Progressione retributiva apprendistato</div>
+      <div id="anni-rows"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Ferie e permessi annuali</div>
+      <div class="hl-row"><span class="hl-key">Ferie annue</span><span class="hl-val">32 gg lavorativi</span></div>
+      <div class="hl-row"><span class="hl-key">Base calcolo</span><span class="hl-val">settimana di 6 gg (CCNL art. 46)</span></div>
+      <div class="hl-row"><span class="hl-key">Maturazione</span><span class="hl-val">18,67 ore/mese (dodicesimi)</span></div>
+      <div class="hl-row"><span class="hl-key">Permessi personali</span><span class="hl-val">3 gg/anno (rinnovabili)</span></div>
+      <div class="hl-row"><span class="hl-key">Ticket restaurant</span><span class="hl-val">8 €/giorno lavorato</span></div>
+    </div>
+  </div>
+
+  <!-- TAB STIPENDIO -->
+  <div id="tab-stipendio" class="section">
+    <div class="cards-grid">
+      <div class="metric-card">
+        <div class="metric-label">Netto ora</div>
+        <div class="metric-value">1.530</div>
+        <div class="metric-sub">€/mese · 86%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Da sett. 2026</div>
+        <div class="metric-value">1.590</div>
+        <div class="metric-sub">€/mese · 90%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">100% apprendista</div>
+        <div class="metric-value">1.780</div>
+        <div class="metric-sub">€/mese · da sett. 2028</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">100% indeterminato</div>
+        <div class="metric-value">1.710</div>
+        <div class="metric-sub">€/mese · da sett. 2028</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Dettaglio busta paga – febbraio 2026</div>
+      <div class="hl-row"><span class="hl-key">Lordo mensile</span><span class="hl-val">1.769,56 €</span></div>
+      <div class="hl-row"><span class="hl-key">Contributi INPS (5,84%)</span><span class="hl-val">− 103,37 €</span></div>
+      <div class="hl-row"><span class="hl-key">FIS + CIGS</span><span class="hl-val">− 10,03 €</span></div>
+      <div class="hl-row"><span class="hl-key">IRPEF netta</span><span class="hl-val">− 112,26 €</span></div>
+      <div class="hl-row"><span class="hl-key">Add. regionale Lombardia</span><span class="hl-val">− 8,16 €</span></div>
+      <div class="hl-row"><span class="hl-key">Ticket restaurant (18 gg)</span><span class="hl-val">− 144,00 €</span></div>
+      <div class="hl-row" style="padding-top:10px;">
+        <span class="hl-key" style="font-weight:500;font-size:14px;">Netto accreditato</span>
+        <span class="hl-val" style="font-size:20px;font-family:'DM Mono',monospace;">1.530,00 €</span>
+      </div>
+      <div class="info-box info-box-blue" style="margin-top:12px;">
+        TFR maturato annuo: <strong>262,16 €</strong> · versato a fondo pensione
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Evoluzione stipendio netto</div>
+      <div id="salary-bars"></div>
+      <div class="info-box info-box-amber" style="margin-top:10px;">
+        Il passaggio a indeterminato comporta contributi INPS più alti (9,19% vs 5,84%), quindi il netto scende leggermente rispetto all'ultimo anno di apprendistato.
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB EVENTI -->
+  <div id="tab-eventi" class="section">
+    <div class="card">
+      <div class="card-title">Timeline prossimi eventi</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot now"></div>
+          <div class="tl-date">Marzo 2026</div>
+          <div class="tl-label">Ora</div>
+          <div class="tl-sub" id="tl-now-sub">—</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Agosto 2026</div>
+          <div class="tl-label">Chiusura aziendale</div>
+          <div class="tl-sub" id="tl-aug-sub">—</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot money"></div>
+          <div class="tl-date">1 settembre 2026</div>
+          <div class="tl-label">Aumento stipendio (90%)</div>
+          <div class="tl-sub">Netto: da ~1.530 a ~1.590 €/mese · +82 € lordi</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-date">1 gennaio 2027</div>
+          <div class="tl-label">Rinnovo permessi jolly</div>
+          <div class="tl-sub">Nuovi 3 giorni personali disponibili per il 2027</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot money"></div>
+          <div class="tl-date">1 settembre 2027</div>
+          <div class="tl-label">Aumento stipendio (95%)</div>
+          <div class="tl-sub">Netto: ~1.680 €/mese · 3° anno apprendistato</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot money"></div>
+          <div class="tl-date">1 settembre 2028</div>
+          <div class="tl-label">Fine apprendistato · 100% tabellare</div>
+          <div class="tl-sub">Lordo: 2.057,63 € · Netto apprendista: ~1.780 € · Netto indeterminato: ~1.710 €</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let DAILY=7.2, ACCRUAL=18.67, INITIAL=23.67, CLOSING=15, MAX_JOLLY=3;
+let used=[0,1,1,0,0], jolly=3;
+
+const months=['Mar','Apr','Mag','Giu','Lug'];
+const fullMonths=['Marzo','Aprile','Maggio','Giugno','Luglio'];
+
+function initials(name){
+  return name.trim().split(/\s+/).map(w=>w[0]||'').join('').toUpperCase().slice(0,2)||'??';
+}
+
+function applySetup(){
+  const name=document.getElementById('s-name').value.trim();
+  const role=document.getElementById('s-role').value.trim();
+  const ferie=parseFloat(document.getElementById('s-ferie').value)||3.3;
+  const accrual=parseFloat(document.getElementById('s-accrual').value)||18.67;
+  const daily=parseFloat(document.getElementById('s-daily').value)||7.2;
+  const closing=parseInt(document.getElementById('s-closing').value)||15;
+  const maxJolly=parseInt(document.getElementById('s-jolly').value)||3;
+
+  if(!name){alert('Inserisci il tuo nome!');return;}
+
+  const data={name,role,ferie,accrual,daily,closing,maxJolly};
+  localStorage.setItem('dashConfig',JSON.stringify(data));
+  localStorage.setItem('dashUsed',JSON.stringify([0,0,0,0,0]));
+  localStorage.setItem('dashJolly',String(maxJolly));
+
+  loadConfig(data);
+  used=[0,0,0,0,0];
+  jolly=maxJolly;
+  document.getElementById('jolly-val').textContent=jolly;
+  document.getElementById('overlay').style.display='none';
+  document.getElementById('app').style.display='block';
+  buildGrid();
+  update();
+  buildAnni();
+  buildSalaryBars();
+}
+
+function openSetup(){
+  const saved=localStorage.getItem('dashConfig');
+  if(saved){
+    const d=JSON.parse(saved);
+    document.getElementById('s-name').value=d.name||'';
+    document.getElementById('s-role').value=d.role||'';
+    document.getElementById('s-ferie').value=d.ferie||'';
+    document.getElementById('s-accrual').value=d.accrual||'';
+    document.getElementById('s-daily').value=d.daily||'';
+    document.getElementById('s-closing').value=d.closing||'';
+    document.getElementById('s-jolly').value=d.maxJolly||'';
+  }
+  document.getElementById('overlay').style.display='flex';
+}
+
+function loadConfig(d){
+  DAILY=d.daily;ACCRUAL=d.accrual;INITIAL=d.ferie;CLOSING=d.closing;MAX_JOLLY=d.maxJolly;
+  document.getElementById('h-name').textContent=d.name;
+  document.getElementById('h-role').textContent=d.role||'CCNL Formazione Professionale';
+  document.getElementById('h-avatar').textContent=initials(d.name);
+  document.getElementById('m-residue').textContent=(d.ferie).toFixed(1);
+  document.getElementById('m-accrual').textContent=(d.accrual/d.daily).toFixed(1);
+  document.getElementById('m-jolly').textContent=d.maxJolly;
+  document.getElementById('tl-now-sub').textContent=`Ferie residue: ${d.ferie.toFixed(1)} gg · Netto: ~1.530 €/mese`;
+  document.getElementById('tl-aug-sub').textContent=`${d.closing} giorni lavorativi · usa i ${d.maxJolly} jolly per conservare ferie`;
+  document.title=`Dashboard – ${d.name}`;
+}
+
+function showTab(name,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function changeJolly(d){
+  jolly=Math.max(0,Math.min(MAX_JOLLY,jolly+d));
+  document.getElementById('jolly-val').textContent=jolly;
+  localStorage.setItem('dashJolly',String(jolly));
+  update();
+}
+
+function buildGrid(){
+  const grid=document.getElementById('monthGrid');
+  grid.innerHTML='';
+  months.forEach((m,i)=>{
+    const c=document.createElement('div');
+    c.className='month-cell'+(i===0?' current-month':'')+(used[i]>0?' used':'');
+    c.innerHTML=`<div class="mn">${m}</div><div class="mv">${used[i]}gg</div>`;
+    c.onclick=()=>{used[i]=(used[i]>=3)?0:used[i]+1;localStorage.setItem('dashUsed',JSON.stringify(used));buildGrid();update();};
+    grid.appendChild(c);
+  });
+  const aug=document.createElement('div');
+  aug.className='month-cell closing';
+  aug.innerHTML=`<div class="mn">Ago</div><div class="mv">chiusura</div>`;
+  grid.appendChild(aug);
+}
+
+function update(){
+  let bal=INITIAL;
+  let projHtml='';
+  for(let i=0;i<5;i++){
+    bal+=ACCRUAL;
+    bal-=used[i]*DAILY;
+    projHtml+=`<div class="hl-row"><span class="hl-key">${fullMonths[i]}</span><span class="hl-val">${(bal/DAILY).toFixed(1)} giorni</span></div>`;
+  }
+  bal+=ACCRUAL;
+  const jollyH=jolly*DAILY;
+  const ferieUsed=(CLOSING*DAILY)-jollyH;
+  const after=bal-ferieUsed;
+  const afterDays=after/DAILY;
+  const accrualDays=ACCRUAL/DAILY;
+
+  document.getElementById('projection-rows').innerHTML=projHtml;
+  document.getElementById('sett-result').textContent=afterDays.toFixed(1)+' gg';
+
+  const note=afterDays>0
+    ?`+ la maturazione di settembre (${accrualDays.toFixed(1)} gg) porta subito a ${(afterDays+accrualDays).toFixed(1)} gg disponibili.`
+    :`Attenzione: le ferie non coprono agosto. Mancano ${Math.abs(afterDays).toFixed(1)} giorni.`;
+  const noteEl=document.getElementById('sett-note');
+  noteEl.textContent=note;
+  noteEl.className='info-box '+(afterDays>=0?'info-box-green':'info-box-red');
+
+  document.getElementById('agosto-text').textContent=
+    `Chiusura: ${CLOSING} gg × ${DAILY}h = ${CLOSING*DAILY}h totali  ·  Jolly: ${jolly} gg (${jollyH.toFixed(0)}h)  ·  Ferie da usare: ${Math.max(0,ferieUsed).toFixed(0)}h`;
+
+  const pct=bal>0?Math.min(100,Math.max(0,(after/bal)*100)):0;
+  document.getElementById('agosto-bar').style.width=pct.toFixed(0)+'%';
+  document.getElementById('agosto-bar-label').textContent=`Rimane il ${pct.toFixed(0)}% delle ferie disponibili dopo agosto`;
+
+  const totalGodute=used.reduce((a,b)=>a+b,0);
+  document.getElementById('m-godute').textContent=totalGodute;
+  document.getElementById('m-jolly').textContent=Math.max(0,MAX_JOLLY-jolly);
+}
+
+function buildAnni(){
+  const anni=[
+    {label:'1° anno (ora – ago 2026)',pct:86,netto:1530,active:true},
+    {label:'2° anno (sett 2026)',pct:90,netto:1590,active:false},
+    {label:'3° anno (sett 2027)',pct:95,netto:1680,active:false},
+    {label:'4° anno / indeter. (sett 2028)',pct:100,netto:'1.710–1.780',active:false},
+  ];
+  let h='';
+  anni.forEach(a=>{
+    h+=`<div class="salary-row">
+      <div class="salary-row-top">
+        <span class="salary-row-label" style="${a.active?'font-weight:500;color:var(--text)':''}">${a.label}</span>
+        <span class="salary-row-val">${a.pct}% · ~${a.netto} € netti</span>
+      </div>
+      <div class="bar-wrap"><div class="bar" style="width:${a.pct}%;background:${a.active?'var(--blue)':'var(--border2)'}"></div></div>
+    </div>`;
+  });
+  document.getElementById('anni-rows').innerHTML=h;
+}
+
+function buildSalaryBars(){
+  const steps=[
+    {label:'Ora (86%, apprendista)',netto:1530},
+    {label:'Sett. 2026 (90%)',netto:1590},
+    {label:'Sett. 2027 (95%)',netto:1680},
+    {label:'Sett. 2028 – apprendista 100%',netto:1780},
+    {label:'Sett. 2028 – indeterminato 100%',netto:1710,note:true},
+  ];
+  let h='';
+  steps.forEach(s=>{
+    const w=(s.netto/1780*100).toFixed(0);
+    h+=`<div class="salary-row">
+      <div class="salary-row-top">
+        <span class="salary-row-label">${s.label}</span>
+        <span class="salary-row-val">~${s.netto.toLocaleString('it-IT')} €</span>
+      </div>
+      <div class="bar-wrap"><div class="bar" style="width:${w}%;background:${s.note?'var(--amber)':'var(--blue)'}"></div></div>
+    </div>`;
+  });
+  document.getElementById('salary-bars').innerHTML=h;
+}
+
+// BOOT: check localStorage
+(function(){
+  const saved=localStorage.getItem('dashConfig');
+  if(saved){
+    const d=JSON.parse(saved);
+    const savedUsed=localStorage.getItem('dashUsed');
+    const savedJolly=localStorage.getItem('dashJolly');
+    if(savedUsed) used=JSON.parse(savedUsed);
+    if(savedJolly) jolly=parseInt(savedJolly);
+    loadConfig(d);
+    document.getElementById('jolly-val').textContent=jolly;
+    document.getElementById('overlay').style.display='none';
+    document.getElementById('app').style.display='block';
+    buildGrid();update();buildAnni();buildSalaryBars();
+  } else {
+    // pre-fill with Federico's data as defaults
+    document.getElementById('s-name').value='Federico Pozzi';
+    document.getElementById('s-role').value='Apprendista formatore · 5° liv. CCNL FP · Milano';
+    document.getElementById('s-ferie').value='3.3';
+    document.getElementById('s-accrual').value='18.67';
+    document.getElementById('s-daily').value='7.2';
+    document.getElementById('s-closing').value='15';
+    document.getElementById('s-jolly').value='3';
+  }
+})();
+</script>
+</body>
+</html>
