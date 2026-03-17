@@ -3,686 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ferie Dashboard</title>
+<title>Ferie & Contratto Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f0f14;
-    --bg2: #16161e;
-    --bg3: #1e1e2a;
-    --border: #2a2a3a;
-    --accent: #c9a96e;
-    --accent2: #e8c98a;
-    --accent-soft: rgba(201,169,110,0.12);
-    --text: #e8e4dc;
-    --text-dim: #8a8699;
-    --text-muted: #5a5670;
-    --green: #5ec98a;
-    --green-soft: rgba(94,201,138,0.12);
-    --red: #e87070;
-    --red-soft: rgba(232,112,112,0.12);
-    --blue: #7099e8;
-    --blue-soft: rgba(112,153,232,0.12);
-    --radius: 14px;
-    --radius-sm: 8px;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ─── ONBOARDING ─── */
-  #onboarding {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: radial-gradient(ellipse at 60% 30%, rgba(201,169,110,0.06) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, rgba(112,153,232,0.05) 0%, transparent 50%),
-                var(--bg);
-  }
-
-  .onboard-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 52px 48px;
-    max-width: 520px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .onboard-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  }
-
-  .onboard-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 13px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 32px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .onboard-logo::before {
-    content: '';
-    display: block;
-    width: 28px;
-    height: 1px;
-    background: var(--accent);
-  }
-
-  .onboard-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 34px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 8px;
-    color: var(--text);
-  }
-
-  .onboard-sub {
-    font-size: 14px;
-    color: var(--text-dim);
-    margin-bottom: 40px;
-    line-height: 1.6;
-  }
-
-  .form-group {
-    margin-bottom: 24px;
-  }
-
-  .form-label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-
-  .form-input {
-    width: 100%;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-
-  .form-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(201,169,110,0.12);
-  }
-
-  .form-input::placeholder { color: var(--text-muted); }
-
-  .toggle-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .toggle-btn {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 13px;
-    color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-align: center;
-  }
-
-  .toggle-btn.active {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .input-with-hint {
-    position: relative;
-  }
-
-  .input-hint {
-    position: absolute;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 12px;
-    color: var(--text-muted);
-    pointer-events: none;
-  }
-
-  .input-converted {
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--accent);
-    min-height: 18px;
-  }
-
-  .submit-btn {
-    width: 100%;
-    background: var(--accent);
-    color: #0f0f14;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 0.5px;
-    margin-top: 8px;
-    transition: all 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .submit-btn:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,169,110,0.25); }
-  .submit-btn:active { transform: translateY(0); }
-
-  /* ─── DASHBOARD ─── */
-  #dashboard { display: none; }
-
-  .header {
-    background: var(--bg2);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .header-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .header-sep { width: 1px; height: 24px; background: var(--border); }
-
-  .header-name {
-    font-size: 14px;
-    color: var(--text-dim);
-  }
-
-  .header-name span {
-    color: var(--text);
-    font-weight: 500;
-  }
-
-  .header-badge {
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 20px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    border: 1px solid rgba(201,169,110,0.2);
-    letter-spacing: 0.5px;
-    font-weight: 500;
-  }
-
-  .reset-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    color: var(--text-dim);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    padding: 7px 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .reset-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .main {
-    padding: 32px;
-    max-width: 1300px;
-    margin: 0 auto;
-  }
-
-  /* ─── STAT CARDS ─── */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-
-  @media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 500px) { .stats-grid { grid-template-columns: 1fr; } }
-
-  .stat-card {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .stat-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: 0 0 var(--radius) var(--radius);
-  }
-
-  .stat-card.gold::after { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
-  .stat-card.green::after { background: linear-gradient(90deg, transparent, var(--green), transparent); }
-  .stat-card.blue::after { background: linear-gradient(90deg, transparent, var(--blue), transparent); }
-  .stat-card.red::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
-
-  .stat-label {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 12px;
-    font-weight: 500;
-  }
-
-  .stat-value {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-card.gold .stat-value { color: var(--accent); }
-  .stat-card.green .stat-value { color: var(--green); }
-  .stat-card.blue .stat-value { color: var(--blue); }
-  .stat-card.red .stat-value { color: var(--red); }
-
-  .stat-sub {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  /* ─── LAYOUT ─── */
-  .content-grid {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 20px;
-    align-items: start;
-  }
-
-  @media (max-width: 1100px) { .content-grid { grid-template-columns: 1fr; } }
-
-  /* ─── SECTION ─── */
-  .section {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-
-  .section-header {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .section-title .icon {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-  }
-
-  .section-body { padding: 20px 24px; }
-
-  /* ─── MONTHS GRID ─── */
-  .months-list { display: flex; flex-direction: column; gap: 12px; }
-
-  .month-row {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 16px 18px;
-    display: grid;
-    grid-template-columns: 100px 1fr auto auto;
-    align-items: center;
-    gap: 16px;
-    transition: border-color 0.2s;
-  }
-
-  .month-row:hover { border-color: rgba(201,169,110,0.3); }
-
-  .month-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .month-name .year { color: var(--text-muted); font-weight: 400; font-size: 12px; }
-
-  .days-controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .day-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--bg2);
-    color: var(--text-dim);
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 300;
-  }
-
-  .day-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  .days-taken {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--accent);
-    min-width: 40px;
-    text-align: center;
-  }
-
-  .days-label { font-size: 11px; color: var(--text-muted); }
-
-  .month-accrued {
-    text-align: right;
-    font-size: 12px;
-    color: var(--text-dim);
-  }
-
-  .month-accrued .val { color: var(--green); font-weight: 600; }
-
-  .month-balance {
-    text-align: right;
-    font-size: 12px;
-  }
-
-  .month-balance .val {
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  /* ─── PROGRESS BAR ─── */
-  .progress-bar {
-    height: 6px;
-    background: var(--bg3);
-    border-radius: 99px;
-    overflow: hidden;
-    margin-top: 12px;
-  }
-
-  .progress-fill {
-    height: 100%;
-    border-radius: 99px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width 0.4s ease;
-  }
-
-  /* ─── TIMELINE ─── */
-  .timeline { position: relative; padding: 4px 0; }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 14px;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--border) 10%, var(--border) 90%, transparent);
-  }
-
-  .timeline-item {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding: 12px 0;
-    position: relative;
-  }
-
-  .timeline-dot {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    border: 2px solid;
-    background: var(--bg2);
-  }
-
-  .timeline-item.past .timeline-dot { border-color: var(--text-muted); color: var(--text-muted); background: var(--bg3); }
-  .timeline-item.future .timeline-dot { border-color: var(--accent); color: var(--accent); }
-  .timeline-item.soon .timeline-dot { border-color: var(--green); color: var(--green); }
-
-  .timeline-content { flex: 1; padding-top: 4px; }
-
-  .timeline-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
-
-  .timeline-date {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .timeline-tag {
-    display: inline-block;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 20px;
-    margin-top: 4px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .tag-chiusura { background: var(--red-soft); color: var(--red); border: 1px solid rgba(232,112,112,0.2); }
-  .tag-ponte { background: var(--blue-soft); color: var(--blue); border: 1px solid rgba(112,153,232,0.2); }
-  .tag-festivita { background: var(--green-soft); color: var(--green); border: 1px solid rgba(94,201,138,0.2); }
-
-  /* ─── RIGHT PANEL ─── */
-  .right-panel {}
-
-  /* ─── PROGRESS SUMMARY ─── */
-  .progress-summary { padding: 20px 24px; }
-
-  .ps-label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-  }
-
-  .ps-arc-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-
-  .ps-donut {
-    position: relative;
-    width: 140px;
-    height: 140px;
-  }
-
-  .ps-donut svg { transform: rotate(-90deg); }
-
-  .ps-center {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .ps-pct {
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--accent);
-    line-height: 1;
-  }
-
-  .ps-pct-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-
-  .ps-rows { display: flex; flex-direction: column; gap: 12px; }
-
-  .ps-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    background: var(--bg3);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-  }
-
-  .ps-row-label { font-size: 13px; color: var(--text-dim); }
-  .ps-row-val { font-size: 14px; font-weight: 600; color: var(--text); }
-  .ps-row-val.positive { color: var(--green); }
-  .ps-row-val.negative { color: var(--red); }
-  .ps-row-val.accent { color: var(--accent); }
-
-  /* ─── YEAR STRIP ─── */
-  .year-strip {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
-    padding: 16px 24px;
-  }
-
-  .ys-month {
-    flex: 1;
-    min-width: 20px;
-    height: 8px;
-    border-radius: 99px;
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    position: relative;
-    cursor: default;
-    transition: transform 0.15s;
-  }
-
-  .ys-month:hover { transform: scaleY(1.5); }
-  .ys-month .ys-fill { height: 100%; border-radius: 99px; }
-
-  /* ─── ANIMATIONS ─── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .stat-card { animation: fadeUp 0.4s ease both; }
-  .stat-card:nth-child(1) { animation-delay: 0.05s; }
-  .stat-card:nth-child(2) { animation-delay: 0.1s; }
-  .stat-card:nth-child(3) { animation-delay: 0.15s; }
-  .stat-card:nth-child(4) { animation-delay: 0.2s; }
-
-  /* ─── SCROLLBAR ─── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-  /* ─── SEPARATOR ─── */
-  .divider { height: 1px; background: var(--border); margin: 8px 0; }
-
-  .month-row-current { border-color: rgba(201,169,110,0.4); background: rgba(201,169,110,0.04); }
-
-  .info-note {
-    font-size: 12px;
-    color: var(--text-muted);
-    padding: 12px 14px;
-    background: var(--bg3);
-    border-radius: var(--radius-sm);
-    border-left: 3px solid var(--accent);
-    line-height: 1.6;
-  }
+    --bg:#0f0f14; --bg2:#16161e; --bg3:#1e1e2a; --border:#2a2a3a;
+    --accent:#c9a96e; --accent2:#e8c98a; --accent-soft:rgba(201,169,110,0.12);
+    --text:#e8e4dc; --text-dim:#8a8699; --text-muted:#5a5670;
+    --green:#5ec98a; --green-soft:rgba(94,201,138,0.12);
+    --red:#e87070; --red-soft:rgba(232,112,112,0.12);
+    --blue:#7099e8; --blue-soft:rgba(112,153,232,0.12);
+    --purple:#a07ae8; --purple-soft:rgba(160,122,232,0.12);
+    --radius:14px; --radius-sm:8px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+  /* ── ONBOARDING ── */
+  #onboarding{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:radial-gradient(ellipse at 60% 30%,rgba(201,169,110,.06) 0%,transparent 60%),
+               radial-gradient(ellipse at 20% 80%,rgba(112,153,232,.05) 0%,transparent 50%),var(--bg)}
+  .onboard-card{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:52px 48px;max-width:520px;width:100%;position:relative;overflow:hidden}
+  .onboard-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .onboard-logo{font-family:'Playfair Display',serif;font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--accent);margin-bottom:32px;display:flex;align-items:center;gap:10px}
+  .onboard-logo::before{content:'';display:block;width:28px;height:1px;background:var(--accent)}
+  .onboard-title{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;line-height:1.2;margin-bottom:8px}
+  .onboard-sub{font-size:14px;color:var(--text-dim);margin-bottom:40px;line-height:1.6}
+  .form-group{margin-bottom:24px}
+  .form-label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:10px;font-weight:500}
+  .form-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;transition:all .2s;outline:none}
+  .form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(201,169,110,.12)}
+  .form-input::placeholder{color:var(--text-muted)}
+  .toggle-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .toggle-btn{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px;color:var(--text-dim);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-align:center}
+  .toggle-btn.active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+  .input-with-hint{position:relative}
+  .input-hint{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text-muted);pointer-events:none}
+  .input-converted{margin-top:8px;font-size:13px;color:var(--accent);min-height:18px}
+  .submit-btn{width:100%;background:var(--accent);color:#0f0f14;border:none;border-radius:var(--radius-sm);padding:16px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.5px;margin-top:8px;transition:all .2s}
+  .submit-btn:hover{background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,169,110,.25)}
+  .info-note{font-size:12px;color:var(--text-muted);padding:12px 14px;background:var(--bg3);border-radius:var(--radius-sm);border-left:3px solid var(--accent);line-height:1.6}
+
+  /* ── DASHBOARD ── */
+  #dashboard{display:none}
+  .header{background:var(--bg2);border-bottom:1px solid var(--border);padding:18px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+  .header-left{display:flex;align-items:center;gap:20px}
+  .header-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--accent)}
+  .header-sep{width:1px;height:24px;background:var(--border)}
+  .header-name{font-size:14px;color:var(--text-dim)}
+  .header-name span{color:var(--text);font-weight:500}
+  .header-badge{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--accent-soft);color:var(--accent);border:1px solid rgba(201,169,110,.2);letter-spacing:.5px;font-weight:500}
+  .reset-btn{background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-dim);font-family:'DM Sans',sans-serif;font-size:12px;padding:7px 14px;cursor:pointer;transition:all .2s}
+  .reset-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ── TABS ── */
+  .tabs-bar{display:flex;gap:4px;padding:16px 32px 0;border-bottom:1px solid var(--border);background:var(--bg2)}
+  .tab-btn{background:transparent;border:none;border-bottom:2px solid transparent;padding:10px 20px 12px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:-1px}
+  .tab-btn:hover{color:var(--text-dim)}
+  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab-content{display:none}
+  .tab-content.active{display:block}
+  .main{padding:32px;max-width:1300px;margin:0 auto}
+
+  /* ── STAT CARDS ── */
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+  @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+  .stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;animation:fadeUp .4s ease both}
+  .stat-card:nth-child(1){animation-delay:.05s}.stat-card:nth-child(2){animation-delay:.1s}
+  .stat-card:nth-child(3){animation-delay:.15s}.stat-card:nth-child(4){animation-delay:.2s}
+  .stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;border-radius:0 0 var(--radius) var(--radius)}
+  .stat-card.gold::after{background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .stat-card.green::after{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+  .stat-card.blue::after{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+  .stat-card.red::after{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+  .stat-label{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;font-weight:500}
+  .stat-value{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;line-height:1;margin-bottom:4px}
+  .stat-card.gold .stat-value{color:var(--accent)}.stat-card.green .stat-value{color:var(--green)}
+  .stat-card.blue .stat-value{color:var(--blue)}.stat-card.red .stat-value{color:var(--red)}
+  .stat-sub{font-size:12px;color:var(--text-muted)}
+
+  /* ── LAYOUT ── */
+  .content-grid{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+  @media(max-width:1100px){.content-grid{grid-template-columns:1fr}}
+
+  /* ── SECTION ── */
+  .section{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
+  .section-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .section-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px}
+  .section-title .icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .section-body{padding:20px 24px}
+
+  /* ── MONTHS ── */
+  .months-list{display:flex;flex-direction:column;gap:12px}
+  .month-row{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;display:grid;grid-template-columns:100px 1fr auto auto;align-items:center;gap:16px;transition:border-color .2s}
+  .month-row:hover{border-color:rgba(201,169,110,.3)}
+  .month-row-current{border-color:rgba(201,169,110,.4)!important;background:rgba(201,169,110,.04)!important}
+  .month-name{font-size:14px;font-weight:600}
+  .month-name .year{color:var(--text-muted);font-weight:400;font-size:12px}
+  .days-controls{display:flex;align-items:center;gap:6px}
+  .day-btn{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg2);color:var(--text-dim);font-size:16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center}
+  .day-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .days-taken{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--accent);min-width:40px;text-align:center}
+  .days-label{font-size:11px;color:var(--text-muted)}
+  .month-accrued{text-align:right;font-size:12px;color:var(--text-dim)}
+  .month-accrued .val{color:var(--green);font-weight:600}
+  .month-balance{text-align:right;font-size:12px}
+  .month-balance .val{font-weight:600;font-size:14px}
+  .progress-bar{height:6px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-top:12px}
+  .progress-fill{height:100%;border-radius:99px;transition:width .4s ease}
+
+  /* ── TIMELINE ── */
+  .timeline{position:relative;padding:4px 0}
+  .timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--border) 10%,var(--border) 90%,transparent)}
+  .timeline-item{display:flex;gap:20px;align-items:flex-start;padding:12px 0;position:relative}
+  .timeline-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;position:relative;z-index:1;border:2px solid;background:var(--bg2)}
+  .timeline-item.past .timeline-dot{border-color:var(--text-muted);color:var(--text-muted);background:var(--bg3)}
+  .timeline-item.future .timeline-dot{border-color:var(--accent);color:var(--accent)}
+  .timeline-item.soon .timeline-dot{border-color:var(--green);color:var(--green)}
+  .timeline-content{flex:1;padding-top:4px}
+  .timeline-title{font-size:14px;font-weight:600;margin-bottom:3px}
+  .timeline-date{font-size:12px;color:var(--text-muted)}
+  .timeline-tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:20px;margin-top:4px;font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+  .tag-chiusura{background:var(--red-soft);color:var(--red);border:1px solid rgba(232,112,112,.2)}
+  .tag-ponte{background:var(--blue-soft);color:var(--blue);border:1px solid rgba(112,153,232,.2)}
+  .tag-festivita{background:var(--green-soft);color:var(--green);border:1px solid rgba(94,201,138,.2)}
+
+  /* ── DONUT ── */
+  .ps-arc-wrap{display:flex;justify-content:center;margin-bottom:20px}
+  .ps-donut{position:relative;width:140px;height:140px}
+  .ps-donut svg{transform:rotate(-90deg)}
+  .ps-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .ps-pct{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--accent);line-height:1}
+  .ps-pct-label{font-size:10px;color:var(--text-muted);margin-top:2px}
+  .ps-rows{display:flex;flex-direction:column;gap:12px}
+  .ps-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)}
+  .ps-row-label{font-size:13px;color:var(--text-dim)}
+  .ps-row-val{font-size:14px;font-weight:600}
+  .ps-row-val.positive{color:var(--green)}.ps-row-val.negative{color:var(--red)}.ps-row-val.accent{color:var(--accent)}
+  .divider{height:1px;background:var(--border);margin:8px 0}
+
+  /* ── TAB 2 SHARED ── */
+  .t2-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+  @media(max-width:900px){.t2-grid{grid-template-columns:1fr}}
+  .t2-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+  @media(max-width:900px){.t2-grid-3{grid-template-columns:1fr}}
+
+  /* ── SALARY CARDS ── */
+  .salary-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;position:relative;overflow:hidden;transition:border-color .2s}
+  .salary-card.active-year{border-color:var(--accent);background:rgba(201,169,110,.04)}
+  .salary-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+  .salary-card.y1::before{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+  .salary-card.y2::before{background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .salary-card.y3::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+  .sc-year-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+  .sc-period{font-size:12px;color:var(--text-dim);margin-bottom:16px}
+  .sc-pct-badge{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;margin-bottom:4px;display:block}
+  .salary-card.y1 .sc-pct-badge{color:var(--red)}
+  .salary-card.y2 .sc-pct-badge{color:var(--accent)}
+  .salary-card.y3 .sc-pct-badge{color:var(--green)}
+  .sc-pct-sub{font-size:12px;color:var(--text-muted);margin-bottom:16px}
+  .sc-divider{height:1px;background:var(--border);margin:12px 0}
+  .sc-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .sc-row-label{font-size:12px;color:var(--text-dim)}
+  .sc-row-val.lordo{color:var(--text)}
+  .sc-row-val.netto{color:var(--green)}
+  .sc-row-val.tredicesima{color:var(--blue)}
+  .sc-row-val.tfr{color:var(--purple)}
+  .active-badge{position:absolute;top:14px;right:14px;font-size:10px;padding:3px 8px;border-radius:20px;background:var(--accent-soft);color:var(--accent);border:1px solid rgba(201,169,110,.3);font-weight:600;letter-spacing:.5px}
+
+  /* ── PERMESSI ── */
+  .permessi-list{display:flex;flex-direction:column;gap:10px}
+  .perm-row{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:start;padding:14px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);transition:border-color .2s}
+  .perm-row:hover{border-color:rgba(201,169,110,.25)}
+  .perm-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .perm-title{font-size:14px;font-weight:600;margin-bottom:3px}
+  .perm-desc{font-size:12px;color:var(--text-dim);line-height:1.5}
+  .perm-qty{text-align:right;flex-shrink:0;min-width:60px}
+  .perm-qty-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;line-height:1}
+  .perm-qty-unit{font-size:10px;color:var(--text-muted)}
+
+  /* ── PROGRESS CONTRACT ── */
+  .progress-contract{height:8px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-top:8px}
+  .progress-contract-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--green));transition:width .8s ease}
+  .ci-row{display:flex;flex-direction:column;gap:3px;padding:12px 14px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border)}
+  .ci-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:500}
+  .ci-val{font-size:14px;font-weight:600}
+
+  /* ── INDET SPECIFIC ── */
+  .indet-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+  @media(max-width:900px){.indet-info-grid{grid-template-columns:1fr}}
+  .indet-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:22px;position:relative;overflow:hidden}
+  .indet-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+  .indet-card.ic-gold::before{background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+  .indet-card.ic-blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+  .indet-card.ic-green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+  .indet-card.ic-purple::before{background:linear-gradient(90deg,transparent,var(--purple),transparent)}
+  .ic-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+  .ic-value{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+  .ic-sub{font-size:12px;color:var(--text-dim)}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
 </style>
 </head>
 <body>
 
-<!-- ─── ONBOARDING ─── -->
+<!-- ──────────── ONBOARDING ──────────── -->
 <div id="onboarding">
   <div class="onboard-card">
     <div class="onboard-logo">Ferie 2025</div>
     <h1 class="onboard-title">Benvenuto nel tuo<br>planner ferie</h1>
-    <p class="onboard-sub">Inserisci i tuoi dati per personalizzare la dashboard e tenere traccia delle tue ferie durante l'anno.</p>
-
+    <p class="onboard-sub">Inserisci i tuoi dati per personalizzare la dashboard con le informazioni del tuo contratto CCNL Formazione Professionale.</p>
     <div class="form-group">
       <label class="form-label">Nome e Cognome</label>
-      <input class="form-input" id="inp-name" type="text" placeholder="Es. Marco Rossi" />
+      <input class="form-input" id="inp-name" type="text" placeholder="Es. Mario Rossi" />
     </div>
-
     <div class="form-group">
       <label class="form-label">Tipo di contratto</label>
       <div class="toggle-group">
@@ -690,481 +225,786 @@
         <button class="toggle-btn" id="btn-indet" onclick="selectContract('indeterminato')">Indeterminato</button>
       </div>
     </div>
-
+    <div class="form-group" id="appr-level-group">
+      <label class="form-label">Anno di apprendistato in corso</label>
+      <div class="toggle-group" style="grid-template-columns:1fr 1fr 1fr">
+        <button class="toggle-btn active" id="btn-y1" onclick="selectYear(1)">I Anno (86%)</button>
+        <button class="toggle-btn" id="btn-y2" onclick="selectYear(2)">II Anno (90%)</button>
+        <button class="toggle-btn" id="btn-y3" onclick="selectYear(3)">III Anno (95%)</button>
+      </div>
+    </div>
     <div class="form-group">
-      <label class="form-label">Ore di ferie accumulate</label>
+      <label class="form-label">Ore di ferie accumulate ad oggi</label>
       <div class="input-with-hint">
         <input class="form-input" id="inp-hours" type="number" min="0" step="0.5" placeholder="0" oninput="updateConversion()" />
         <span class="input-hint">ore</span>
       </div>
       <div class="input-converted" id="conv-display"></div>
-      <div class="info-note" style="margin-top:10px">
-        📐 Giornata lavorativa: <strong>7,2 ore</strong> — Accumulo mensile: <strong>18,67 ore</strong> (≈ 2,6 gg/mese)
-      </div>
+      <div class="info-note" style="margin-top:10px">📐 Giornata lavorativa: <strong>7,2 ore</strong> — Accumulo mensile: <strong>18,67 ore</strong> (≈ 2,6 gg/mese)</div>
     </div>
-
     <button class="submit-btn" onclick="startDashboard()">Accedi alla dashboard →</button>
   </div>
 </div>
 
-<!-- ─── DASHBOARD ─── -->
+<!-- ──────────── DASHBOARD ──────────── -->
 <div id="dashboard">
-
   <header class="header">
     <div class="header-left">
       <div class="header-logo">✦ Ferie</div>
-      <div class="header-sep"></div>
+      <div class="header-sep" style="width:1px;height:24px;background:var(--border)"></div>
       <div class="header-name">Ciao, <span id="hdr-name">—</span></div>
       <span class="header-badge" id="hdr-contract">—</span>
     </div>
     <button class="reset-btn" onclick="resetApp()">↩ Ricomincia</button>
   </header>
 
-  <main class="main">
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('ferie')" id="tab-ferie">📅 Ferie &amp; Pianificazione</button>
+    <button class="tab-btn" onclick="switchTab('contratto')" id="tab-contratto">💼 Contratto &amp; Permessi</button>
+  </div>
 
-    <!-- STATS -->
-    <div class="stats-grid">
-      <div class="stat-card gold">
-        <div class="stat-label">Saldo attuale</div>
-        <div class="stat-value" id="stat-balance">0</div>
-        <div class="stat-sub">giorni disponibili</div>
+  <!-- ═══════════ TAB 1 FERIE ═══════════ -->
+  <div id="content-ferie" class="tab-content active">
+    <main class="main">
+      <div class="stats-grid">
+        <div class="stat-card gold"><div class="stat-label">Saldo attuale</div><div class="stat-value" id="stat-balance">0</div><div class="stat-sub">giorni disponibili</div></div>
+        <div class="stat-card green"><div class="stat-label">Accumulerai entro dic.</div><div class="stat-value" id="stat-future">0</div><div class="stat-sub">giorni da oggi a dicembre</div></div>
+        <div class="stat-card blue"><div class="stat-label">Ferie pianificate</div><div class="stat-value" id="stat-planned">0</div><div class="stat-sub">giorni segnati</div></div>
+        <div class="stat-card red"><div class="stat-label">Saldo a fine anno</div><div class="stat-value" id="stat-eoy">0</div><div class="stat-sub">giorni stimati</div></div>
       </div>
-      <div class="stat-card green">
-        <div class="stat-label">Accumulerai entro dic.</div>
-        <div class="stat-value" id="stat-future">0</div>
-        <div class="stat-sub">giorni da oggi a dicembre</div>
-      </div>
-      <div class="stat-card blue">
-        <div class="stat-label">Ferie pianificate</div>
-        <div class="stat-value" id="stat-planned">0</div>
-        <div class="stat-sub">giorni segnati</div>
-      </div>
-      <div class="stat-card red">
-        <div class="stat-label">Saldo a fine anno</div>
-        <div class="stat-value" id="stat-eoy">0</div>
-        <div class="stat-sub">giorni stimati</div>
-      </div>
-    </div>
-
-    <div class="content-grid">
-
-      <!-- LEFT -->
-      <div>
-
-        <!-- MONTHS -->
-        <div class="section">
-          <div class="section-header">
-            <div class="section-title">
-              <span class="icon" style="background:var(--accent-soft);color:var(--accent)">📅</span>
-              Pianificazione mensile
-            </div>
+      <div class="content-grid">
+        <div>
+          <div class="section">
+            <div class="section-header"><div class="section-title"><span class="icon" style="background:var(--accent-soft);color:var(--accent)">📅</span>Pianificazione mensile</div></div>
+            <div class="section-body"><div class="months-list" id="months-list"></div></div>
           </div>
-          <div class="section-body">
-            <div class="months-list" id="months-list"></div>
+          <div class="section">
+            <div class="section-header"><div class="section-title"><span class="icon" style="background:var(--red-soft);color:var(--red)">🏢</span>Chiusure aziendali</div></div>
+            <div class="section-body"><div class="timeline" id="timeline"></div></div>
           </div>
         </div>
-
-        <!-- TIMELINE -->
-        <div class="section">
-          <div class="section-header">
-            <div class="section-title">
-              <span class="icon" style="background:var(--red-soft);color:var(--red)">🏢</span>
-              Chiusure aziendali
-            </div>
-          </div>
-          <div class="section-body">
-            <div class="timeline" id="timeline"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT -->
-      <div class="right-panel">
-
-        <!-- DONUT -->
-        <div class="section">
-          <div class="section-header">
-            <div class="section-title">
-              <span class="icon" style="background:var(--blue-soft);color:var(--blue)">📊</span>
-              Riepilogo
-            </div>
-          </div>
-          <div class="progress-summary">
-            <div class="ps-arc-wrap">
-              <div class="ps-donut">
-                <svg width="140" height="140" viewBox="0 0 140 140">
-                  <circle cx="70" cy="70" r="52" fill="none" stroke="var(--border)" stroke-width="12"/>
-                  <circle id="donut-fill" cx="70" cy="70" r="52" fill="none" stroke="var(--accent)" stroke-width="12"
-                    stroke-linecap="round"
-                    stroke-dasharray="326.7"
-                    stroke-dashoffset="326.7"
-                    style="transition: stroke-dashoffset 0.6s ease"/>
-                </svg>
-                <div class="ps-center">
-                  <div class="ps-pct" id="donut-pct">0%</div>
-                  <div class="ps-pct-label">usate</div>
+        <div>
+          <div class="section">
+            <div class="section-header"><div class="section-title" style="font-size:15px"><span class="icon" style="background:var(--blue-soft);color:var(--blue)">📊</span>Riepilogo</div></div>
+            <div style="padding:20px 24px">
+              <div class="ps-arc-wrap">
+                <div class="ps-donut">
+                  <svg width="140" height="140" viewBox="0 0 140 140">
+                    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--border)" stroke-width="12"/>
+                    <circle id="donut-fill" cx="70" cy="70" r="52" fill="none" stroke="var(--accent)" stroke-width="12" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" style="transition:stroke-dashoffset .6s ease"/>
+                  </svg>
+                  <div class="ps-center"><div class="ps-pct" id="donut-pct">0%</div><div class="ps-pct-label">usate</div></div>
                 </div>
               </div>
-            </div>
-
-            <div class="ps-rows">
-              <div class="ps-row">
-                <span class="ps-row-label">Ferie iniziali</span>
-                <span class="ps-row-val accent" id="ps-initial">0 gg</span>
-              </div>
-              <div class="ps-row">
-                <span class="ps-row-label">Accumulo residuo</span>
-                <span class="ps-row-val positive" id="ps-future">+0 gg</span>
-              </div>
-              <div class="ps-row">
-                <span class="ps-row-label">Ferie pianificate</span>
-                <span class="ps-row-val negative" id="ps-used">−0 gg</span>
-              </div>
-              <div class="divider"></div>
-              <div class="ps-row">
-                <span class="ps-row-label">Saldo fine anno</span>
-                <span class="ps-row-val" id="ps-eoy">0 gg</span>
+              <div class="ps-rows">
+                <div class="ps-row"><span class="ps-row-label">Ferie iniziali</span><span class="ps-row-val accent" id="ps-initial">0 gg</span></div>
+                <div class="ps-row"><span class="ps-row-label">Accumulo residuo</span><span class="ps-row-val positive" id="ps-future">+0 gg</span></div>
+                <div class="ps-row"><span class="ps-row-label">Ferie pianificate</span><span class="ps-row-val negative" id="ps-used">−0 gg</span></div>
+                <div class="divider"></div>
+                <div class="ps-row"><span class="ps-row-label">Saldo fine anno</span><span class="ps-row-val" id="ps-eoy">0 gg</span></div>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- YEAR STRIP -->
-        <div class="section">
-          <div class="section-header">
-            <div class="section-title" style="font-size:15px">
-              <span class="icon" style="background:var(--green-soft);color:var(--green)">📈</span>
-              Evoluzione annuale
-            </div>
+          <div class="section">
+            <div class="section-header"><div class="section-title" style="font-size:15px"><span class="icon" style="background:var(--green-soft);color:var(--green)">📈</span>Evoluzione annuale</div></div>
+            <div style="padding:20px 24px;display:flex;flex-direction:column;gap:8px" id="year-strip"></div>
           </div>
-          <div class="year-strip" id="year-strip" style="flex-direction:column;gap:8px;padding:20px 24px;"></div>
         </div>
-
       </div>
-    </div>
-  </main>
-</div>
+    </main>
+  </div>
+
+  <!-- ═══════════ TAB 2 CONTRATTO ═══════════ -->
+  <div id="content-contratto" class="tab-content">
+    <main class="main">
+
+      <!-- ── SEZIONE APPRENDISTATO ── -->
+      <div id="section-apprendistato">
+
+        <!-- Retribuzione fasce -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700">Retribuzione per fasce</div>
+          <div style="font-size:12px;color:var(--text-muted);padding:4px 12px;background:var(--bg3);border-radius:20px;border:1px solid var(--border)">CCNL FP · V Livello · 13 mensilità</div>
+        </div>
+
+        <div class="info-note" style="margin-bottom:20px">
+          💡 <strong>Come leggere i valori:</strong> Il lordo mensile è calcolato sulla paga base tabellare del V livello (€2.057,63) in proporzione alla fascia. Il netto è <strong>stimato sulla base della busta paga reale</strong> usando le aliquote effettive: contributi INPS lavoratore 5,84% + FIS 0,27% + CIGS 0,30% su base €1.770, IRPEF progressiva, detrazioni da lavoro dipendente e ulteriore detrazione L.207/2024. I valori netti sono indicativi — il cedolino può variare per addizionali comunali, ticket, TFR e altri istituti.
+        </div>
+
+        <div class="t2-grid-3" id="salary-cards"></div>
+
+        <!-- Confronto annuale -->
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--green-soft);color:var(--green)">💰</span>Confronto annuale lordo / netto</div></div>
+          <div class="section-body"><div id="salary-comparison" style="display:flex;flex-direction:column;gap:10px"></div></div>
+        </div>
+
+        <!-- Dettaglio busta paga -->
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--blue-soft);color:var(--blue)">🧾</span>Dettaglio trattenute mensili — fascia attiva</div></div>
+          <div class="section-body">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px" id="busta-detail"></div>
+            <div class="info-note" id="busta-note"></div>
+          </div>
+        </div>
+
+        <!-- Info apprendistato CCNL -->
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--purple-soft);color:var(--purple)">🎓</span>Norme apprendistato — All. 2 CCNL FP</div></div>
+          <div class="section-body">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+              <div class="ci-row"><span class="ci-label">Durata contratto formativo</span><span class="ci-val">36 mesi (V livello)</span></div>
+              <div class="ci-row"><span class="ci-label">Formazione esterna annua</span><span class="ci-val">140 ore — retribuite al 100%</span></div>
+              <div class="ci-row"><span class="ci-label">Strutture formazione esterna</span><span class="ci-val">Accreditate D.Lgs 166/2001</span></div>
+              <div class="ci-row"><span class="ci-label">Periodo di prova</span><span class="ci-val">3 mesi — recesso senza indennità</span></div>
+              <div class="ci-row"><span class="ci-label">Preavviso recesso</span><span class="ci-val">45 giorni — atto scritto (All. 9)</span></div>
+              <div class="ci-row"><span class="ci-label">Al termine dei 36 mesi</span><span class="ci-val">Trasformazione in tempo indeterminato con anzianità dalla data assunzione</span></div>
+            </div>
+            <div class="info-note">📌 Il datore di lavoro è obbligato a concedere i permessi per la formazione esterna senza trattenute sulla retribuzione (All. 2 lett. E CCNL). L'attività del tutor aziendale è considerata docenza a tutti gli effetti.</div>
+          </div>
+        </div>
+
+      </div><!-- /section-apprendistato -->
+
+      <!-- ── SEZIONE INDETERMINATO ── -->
+      <div id="section-indeterminato" style="display:none">
+
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700">Inquadramento e retribuzione</div>
+          <div style="font-size:12px;color:var(--text-muted);padding:4px 12px;background:var(--bg3);border-radius:20px;border:1px solid var(--border)">CCNL FP · Tempo indeterminato</div>
+        </div>
+
+        <div class="info-note" style="margin-bottom:20px">
+          💡 Con il contratto a tempo indeterminato percepisci la <strong>retribuzione piena (100%)</strong> del livello di inquadramento senza alcuna progressione obbligatoria. Eventuali aumenti avvengono tramite <strong>progressione economica orizzontale</strong> (art. 29 CCNL) per crediti maturati, o tramite passaggi di livello.
+        </div>
+
+        <!-- Card livelli -->
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--accent-soft);color:var(--accent)">📊</span>Struttura retributiva — Livelli CCNL FP</div></div>
+          <div class="section-body">
+            <div style="overflow-x:auto">
+              <table id="indet-table" style="width:100%;border-collapse:collapse;font-size:13px">
+                <thead>
+                  <tr style="border-bottom:1px solid var(--border)">
+                    <th style="text-align:left;padding:10px 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:500">Livello</th>
+                    <th style="text-align:left;padding:10px 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:500">Qualifica tipica</th>
+                    <th style="text-align:right;padding:10px 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:500">Paga base mensile</th>
+                    <th style="text-align:right;padding:10px 12px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);font-weight:500">Lordo annuo ×13</th>
+                  </tr>
+                </thead>
+                <tbody id="indet-table-body"></tbody>
+              </table>
+            </div>
+            <div class="info-note" style="margin-top:16px">Valori di paga base da Tab. 1-bis CCNL (in vigore dal 01/01/2002 con adeguamenti). La retribuzione reale include anche indennità di contingenza (Tab. 2), retribuzione individuale di anzianità e progressione economica orizzontale (fino a 4 incrementi da €50/mese al V livello).</div>
+          </div>
+        </div>
+
+        <!-- Progressione orizzontale -->
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--green-soft);color:var(--green)">📈</span>Progressione economica orizzontale — Art. 29 lett. D/E</div></div>
+          <div class="section-body">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+              <div class="ci-row"><span class="ci-label">Incremento per scatto (V livello)</span><span class="ci-val" style="color:var(--green)">+ €50,00 / mese</span></div>
+              <div class="ci-row"><span class="ci-label">Numero massimo di scatti</span><span class="ci-val">4 scatti (= +€200/mese max)</span></div>
+              <div class="ci-row"><span class="ci-label">Crediti per ogni scatto</span><span class="ci-val">10 crediti</span></div>
+              <div class="ci-row"><span class="ci-label">Come maturare crediti</span><span class="ci-val">Attività in sedi diverse, rientri serali, aree operative differenti (≥100h)</span></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Scenario retributivo V livello con progressione (lordo mensile)</div>
+              <div id="progressione-bars"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preavviso e cessazione -->
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--red-soft);color:var(--red)">📋</span>Cessazione del rapporto — Art. 61–65</div></div>
+          <div class="section-body">
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+              <div class="ci-row"><span class="ci-label">Preavviso licenziamento</span><span class="ci-val">3 mesi</span></div>
+              <div class="ci-row"><span class="ci-label">Preavviso dimissioni (I–IV liv.)</span><span class="ci-val">1 mese</span></div>
+              <div class="ci-row"><span class="ci-label">Preavviso dimissioni (V–IX liv.)</span><span class="ci-val">3 mesi</span></div>
+              <div class="ci-row"><span class="ci-label">TFR — liquidazione</span><span class="ci-val">Entro 60 gg dalla cessazione</span></div>
+              <div class="ci-row"><span class="ci-label">Anticipazione TFR</span><span class="ci-val">Max 70% dopo 8 anni</span></div>
+              <div class="ci-row"><span class="ci-label">Incompatibilità</span><span class="ci-val">Altro rapporto di lavoro dipendente (salvo part-time)</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /section-indeterminato -->
+
+      <!-- ══ PERMESSI RETRIBUITI (comuni a entrambi i contratti) ══ -->
+      <div class="section">
+        <div class="section-header"><div class="section-title"><span class="icon" style="background:var(--purple-soft);color:var(--purple)">🗓️</span>Permessi retribuiti — Art. 47 CCNL FP</div></div>
+        <div class="section-body">
+          <div class="permessi-list">
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--accent-soft);color:var(--accent)">🏖️</div>
+              <div>
+                <div class="perm-title">Ferie annuali</div>
+                <div class="perm-desc">32 giorni lavorativi/anno, maturati in dodicesimi (mese intero = presenza effettiva ≥ 15 gg). Godimento concordato con l'ente, preferibilmente nei periodi di inattività formativa. Festività cadenti di domenica recuperate come riposo compensativo. Interruzione in caso di ricovero ospedaliero documentato.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--accent)">32</div><div class="perm-qty-unit">gg/anno</div></div>
+            </div>
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--green-soft);color:var(--green)">📚</div>
+              <div>
+                <div class="perm-title">Esami / Concorsi pubblici</div>
+                <div class="perm-desc">Permesso retribuito per i soli giorni di svolgimento delle prove. Concorsi pubblici o esami scolastici/universitari. Da documentare. Non riducono le ferie e valgono ai fini dell'anzianità di servizio.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--green)">8</div><div class="perm-qty-unit">gg/anno</div></div>
+            </div>
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--red-soft);color:var(--red)">🕯️</div>
+              <div>
+                <div class="perm-title">Lutto familiare</div>
+                <div class="perm-desc">Coniuge · Parenti entro il 2° grado (genitori, fratelli, nonni) · Affini entro il 1° grado (suoceri). Consecutivi per evento. Da documentare.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--red)">3</div><div class="perm-qty-unit">gg/evento</div></div>
+            </div>
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--blue-soft);color:var(--blue)">👶</div>
+              <div>
+                <div class="perm-title">Motivi personali / familiari</div>
+                <div class="perm-desc">Include la nascita di un figlio. Da documentare. Cumulabili nell'anno solare, non riducono le ferie, valgono ai fini dell'anzianità.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--blue)">3</div><div class="perm-qty-unit">gg/anno</div></div>
+            </div>
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--purple-soft);color:var(--purple)">💒</div>
+              <div>
+                <div class="perm-title">Congedo matrimoniale</div>
+                <div class="perm-desc">15 giorni di calendario consecutivi, non frazionabili. Non computabili come ferie né come preavviso. Retribuzione piena.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--purple)">15</div><div class="perm-qty-unit">gg cal.</div></div>
+            </div>
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--green-soft);color:var(--green)">🏫</div>
+              <div>
+                <div class="perm-title">Diritto allo studio — Art. 59</div>
+                <div class="perm-desc">Frequenza di corsi di istruzione primaria, secondaria, FP, universitari e monografici di qualificazione professionale. Max 1/5 del personale contemporaneamente. Da fruire una sola volta nella vigenza contrattuale.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--green)">150</div><div class="perm-qty-unit">ore/anno</div></div>
+            </div>
+
+            <div class="perm-row">
+              <div class="perm-icon" style="background:var(--accent-soft);color:var(--accent)">⏱️</div>
+              <div>
+                <div class="perm-title">Permessi brevi — Art. 49</div>
+                <div class="perm-desc">A domanda, max metà orario giornaliero se turno ≥ 4 ore consecutive. Richiesta entro 1h dall'inizio turno. Ore da recuperare entro il mese successivo, altrimenti decurtazione proporzionale della retribuzione.</div>
+              </div>
+              <div class="perm-qty"><div class="perm-qty-val" style="color:var(--accent)">36</div><div class="perm-qty-unit">ore/anno</div></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TUTELE (comuni) ══ -->
+      <div class="t2-grid">
+
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:15px"><span class="icon" style="background:var(--red-soft);color:var(--red)">⏸️</span>Permessi non retribuiti — Art. 48</div></div>
+          <div class="section-body" style="display:flex;flex-direction:column;gap:10px">
+            <div class="ps-row"><span class="ps-row-label">Max per anno solare</span><span class="ps-row-val" style="color:var(--red)">30 gg</span></div>
+            <div class="ps-row"><span class="ps-row-label">Condizione</span><span class="ps-row-val" style="font-size:12px;color:var(--text-dim)">Eccezionali motivi, compatibile con il servizio</span></div>
+            <div class="ps-row"><span class="ps-row-label">Aspettativa non retribuita</span><span class="ps-row-val" style="color:var(--red)">Max 12 mesi</span></div>
+            <div class="info-note">Aspettativa concessa dopo ≥ 3 anni di servizio, rinnovabile dopo altri 2 anni. Conservazione del posto e dei diritti acquisiti.</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:15px"><span class="icon" style="background:var(--blue-soft);color:var(--blue)">🤒</span>Malattia — Art. 53</div></div>
+          <div class="section-body" style="display:flex;flex-direction:column;gap:10px">
+            <div class="ps-row"><span class="ps-row-label">Conservazione del posto</span><span class="ps-row-val" style="color:var(--blue)">18 mesi</span></div>
+            <div class="ps-row"><span class="ps-row-label">Primi 12 mesi</span><span class="ps-row-val positive">100% retribuzione</span></div>
+            <div class="ps-row"><span class="ps-row-label">Ulteriori 6 mesi</span><span class="ps-row-val" style="color:var(--accent)">75% retribuzione</span></div>
+            <div class="ps-row"><span class="ps-row-label">Oltre i 18 mesi</span><span class="ps-row-val" style="color:var(--red)">Non retribuita</span></div>
+            <div class="info-note">Le assenze degli ultimi 3 anni si cumulano ai fini del computo dei 18 mesi. Certificato medico entro 2 gg dall'inizio assenza.</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:15px"><span class="icon" style="background:var(--green-soft);color:var(--green)">🤰</span>Maternità / Paternità — Art. 54</div></div>
+          <div class="section-body" style="display:flex;flex-direction:column;gap:10px">
+            <div class="ps-row"><span class="ps-row-label">Astensione obbligatoria</span><span class="ps-row-val positive">5 mesi — 100%</span></div>
+            <div class="ps-row"><span class="ps-row-label">Astensione facoltativa madre</span><span class="ps-row-val" style="color:var(--blue)">Max 6 mesi</span></div>
+            <div class="ps-row"><span class="ps-row-label">Astensione facoltativa padre</span><span class="ps-row-val" style="color:var(--blue)">Max 6 mesi (7 se ≥3 mesi)</span></div>
+            <div class="ps-row"><span class="ps-row-label">Indennità astensione facolt.</span><span class="ps-row-val" style="color:var(--accent)">30% retrib.</span></div>
+            <div class="info-note">Primi 30 gg di astensione facoltativa entro il 1° anno del bambino: retribuiti al 100%. Totale genitori: max 10 mesi (11 se padre prende 7 mesi).</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header"><div class="section-title" style="font-size:15px"><span class="icon" style="background:var(--accent-soft);color:var(--accent)">⚖️</span>Orario &amp; Straordinario — Art. 41–43</div></div>
+          <div class="section-body" style="display:flex;flex-direction:column;gap:10px">
+            <div class="ps-row"><span class="ps-row-label">Orario settimanale</span><span class="ps-row-val" style="color:var(--accent)">36 ore su 5 giorni</span></div>
+            <div class="ps-row"><span class="ps-row-label">Impegno annuo (escluse ferie)</span><span class="ps-row-val">1.590 ore</span></div>
+            <div class="ps-row"><span class="ps-row-label">Maggiorazione straordinario diurno</span><span class="ps-row-val" style="color:var(--blue)">+15%</span></div>
+            <div class="ps-row"><span class="ps-row-label">Notturno / Festivo</span><span class="ps-row-val" style="color:var(--purple)">+30% / +50%</span></div>
+            <div class="ps-row"><span class="ps-row-label">Limite annuo straordinario</span><span class="ps-row-val" style="color:var(--red)">120 h (fino 200 h c/RSU)</span></div>
+          </div>
+        </div>
+
+      </div><!-- /t2-grid tutele -->
+
+    </main>
+  </div><!-- /content-contratto -->
+
+</div><!-- /dashboard -->
 
 <script>
-// ─── CONSTANTS ─────────────────────────────────────────────────────────────
+// ─── COSTANTI ────────────────────────────────────────────────────────────────
 const HOURS_PER_DAY = 7.2;
 const HOURS_PER_MONTH = 18.67;
-const DAYS_PER_MONTH = HOURS_PER_MONTH / HOURS_PER_DAY; // ≈ 2.593
+const DPM = HOURS_PER_MONTH / HOURS_PER_DAY; // 2.593...
+const MONTH_NAMES = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
 
-// Chiusure aziendali
 const CLOSURES = [
-  { date: '2025-04-03', title: 'Pasqua', icon: '🐣', type: 'festivita', days: 1 },
-  { date: '2025-06-02', title: 'Ponte del 2 giugno', icon: '🇮🇹', type: 'ponte', days: 1 },
-  { date: '2025-08-03', endDate: '2025-08-21', title: 'Chiusura estiva', icon: '☀️', type: 'chiusura', days: 15 },
-  { date: '2025-12-24', endDate: '2025-12-31', title: 'Natale / Capodanno', icon: '🎄', type: 'chiusura', days: 6 },
+  {date:'2025-04-03',title:'Pasqua',icon:'🐣',type:'festivita',days:1},
+  {date:'2025-06-02',title:'Ponte del 2 giugno',icon:'🇮🇹',type:'ponte',days:1},
+  {date:'2025-08-03',endDate:'2025-08-21',title:'Chiusura estiva',icon:'☀️',type:'chiusura',days:15},
+  {date:'2025-12-24',endDate:'2025-12-31',title:'Natale / Capodanno',icon:'🎄',type:'chiusura',days:6},
 ];
 
-const MONTH_NAMES = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
-                     'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+// Dati retributivi CCNL FP - paga base tabellare V livello
+const TABELLARE_100 = 2057.63;
+const MENSILITA = 13;
 
-// ─── STATE ─────────────────────────────────────────────────────────────────
+// Fasce apprendistato con aliquote REALI dalla busta paga
+// La busta mostra: base €1.769,56 (86%), contributi IVS 5.84% su base arrotond. €1.770
+// IRPEF lorda €380,92 su imponibile €1.656,16, detrazioni €191,95+€76,71, ritenute IRPEF €112,26
+// Addizionale regionale residuo €8,16 → netto reale €1.530,00
+const FASCE_APPR = [
+  {label:'I Anno', pct:86, color:'y1', colVar:'var(--red)'},
+  {label:'II Anno', pct:90, color:'y2', colVar:'var(--accent)'},
+  {label:'III Anno', pct:95, color:'y3', colVar:'var(--green)'},
+];
+
+// Livelli CCNL FP - paga base mensile + contingenza (Tab.1bis + Tab.2 CCNL)
+const LIVELLI_INDET = [
+  {lv:'I',  qual:'Operatore tecnico/organizzativo',       base:599.42,  cont:518.83},
+  {lv:'II', qual:'Operatore amm./org. · Op. tecnico',     base:655.27,  cont:521.89},
+  {lv:'III',qual:'Collaboratore amm. · Op. amm.',         base:727.77,  cont:526.20},
+  {lv:'IV', qual:'Collaboratore amm./org.',               base:794.66,  cont:529.81},
+  {lv:'V',  qual:'Formatore · Tutor · Orientatore · Coord.', base:898.49, cont:535.06},
+  {lv:'VI', qual:'Progettista · Valutatore · Coord.senior',base:1089.72, cont:535.06},
+  {lv:'VII',qual:'Direttore (junior)',                    base:1153.95, cont:546.52},
+  {lv:'VIII',qual:'Direttore',                            base:1284.73, cont:546.52},
+  {lv:'IX', qual:'Direttore Regionale',                   base:1699.47, cont:546.52},
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
 let state = {
-  name: '',
-  contract: 'apprendistato',
-  initialHours: 0,
-  plannedDays: {}, // {monthIndex: days}
+  name: '', contract: 'apprendistato', apprYear: 1,
+  initialHours: 0, plannedDays: {}
 };
 
-// ─── ONBOARDING ────────────────────────────────────────────────────────────
-function selectContract(type) {
-  state.contract = type;
-  document.getElementById('btn-appr').classList.toggle('active', type === 'apprendistato');
-  document.getElementById('btn-indet').classList.toggle('active', type === 'indeterminato');
-}
+const now = new Date();
+const currentMonth = now.getMonth();
+const currentYear = now.getFullYear();
 
+// ─── ONBOARDING ───────────────────────────────────────────────────────────────
+function selectContract(t) {
+  state.contract = t;
+  document.getElementById('btn-appr').classList.toggle('active', t==='apprendistato');
+  document.getElementById('btn-indet').classList.toggle('active', t==='indeterminato');
+  document.getElementById('appr-level-group').style.display = t==='apprendistato' ? 'block' : 'none';
+}
+function selectYear(y) {
+  state.apprYear = y;
+  [1,2,3].forEach(i => document.getElementById('btn-y'+i).classList.toggle('active', i===y));
+}
 function updateConversion() {
-  const h = parseFloat(document.getElementById('inp-hours').value) || 0;
-  const days = h / HOURS_PER_DAY;
+  const h = parseFloat(document.getElementById('inp-hours').value)||0;
   const el = document.getElementById('conv-display');
-  if (h > 0) {
-    el.innerHTML = `→ <strong>${days.toFixed(2)} giorni</strong>`;
-  } else {
-    el.innerHTML = '';
-  }
+  el.innerHTML = h>0 ? `→ <strong>${(h/HOURS_PER_DAY).toFixed(2)} giorni</strong>` : '';
 }
-
 function startDashboard() {
   const name = document.getElementById('inp-name').value.trim();
-  const hours = parseFloat(document.getElementById('inp-hours').value) || 0;
   if (!name) { document.getElementById('inp-name').focus(); return; }
-
   state.name = name;
-  state.initialHours = hours;
+  state.initialHours = parseFloat(document.getElementById('inp-hours').value)||0;
   state.plannedDays = {};
-
   document.getElementById('onboarding').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
-
-  renderDashboard();
+  renderAll();
 }
-
 function resetApp() {
   document.getElementById('onboarding').style.display = 'flex';
   document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('inp-name').value = '';
-  document.getElementById('inp-hours').value = '';
+  ['inp-name','inp-hours'].forEach(id => document.getElementById(id).value='');
   document.getElementById('conv-display').innerHTML = '';
-  state = { name: '', contract: 'apprendistato', initialHours: 0, plannedDays: {} };
+  state = {name:'',contract:'apprendistato',apprYear:1,initialHours:0,plannedDays:{}};
+  selectContract('apprendistato'); selectYear(1);
+}
+function switchTab(tab) {
+  ['ferie','contratto'].forEach(t => {
+    document.getElementById('content-'+t).classList.toggle('active', t===tab);
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
 }
 
-// ─── CORE CALCULATIONS ──────────────────────────────────────────────────────
-function getInitialDays() {
-  return state.initialHours / HOURS_PER_DAY;
-}
-
-const now = new Date();
-const currentMonth = now.getMonth(); // 0-indexed
-const currentYear = now.getFullYear();
-
-function getMonthsRemaining() {
-  // from current month to December (inclusive)
-  return Array.from({length: 12 - currentMonth}, (_, i) => currentMonth + i);
-}
-
-function getFutureAccrual() {
-  // months remaining AFTER current month
-  const months = 11 - currentMonth; // e.g. if March (2), months = 9
-  return months * DAYS_PER_MONTH;
-}
-
-function getTotalPlanned() {
-  return Object.values(state.plannedDays).reduce((s, v) => s + v, 0);
-}
-
-// Running balance at start of each month
-function getBalanceAtMonth(monthIdx) {
-  // initial + accrued up to but not including monthIdx - planned before monthIdx
+// ─── CALCOLI FERIE ────────────────────────────────────────────────────────────
+function getInitialDays() { return state.initialHours / HOURS_PER_DAY; }
+function getFutureAccrual() { return (11 - currentMonth) * DPM; }
+function getTotalPlanned() { return Object.values(state.plannedDays).reduce((s,v)=>s+v,0); }
+function getMonthsRemaining() { return Array.from({length:12-currentMonth},(_,i)=>currentMonth+i); }
+function getBalanceAtMonth(mi) {
   const initial = getInitialDays();
-  // Months from current month to monthIdx (exclusive)
-  const monthsElapsed = monthIdx - currentMonth; // could be 0 for current
-  const accrued = Math.max(0, monthsElapsed) * DAYS_PER_MONTH;
+  const accrued = Math.max(0, mi - currentMonth) * DPM;
   let spent = 0;
-  for (let m = currentMonth; m < monthIdx; m++) {
-    spent += state.plannedDays[m] || 0;
-  }
+  for (let m=currentMonth; m<mi; m++) spent += state.plannedDays[m]||0;
   return initial + accrued - spent;
 }
 
-// ─── RENDER ─────────────────────────────────────────────────────────────────
-function renderDashboard() {
-  renderHeader();
-  renderStats();
-  renderMonths();
-  renderTimeline();
-  renderSummary();
-  renderYearStrip();
+// ─── CALCOLO NETTO DALLA BUSTA PAGA REALE ────────────────────────────────────
+// Metodo calibrato sui valori reali della busta paga febbraio 2026 (I fascia 86%)
+// Base €1.769,56 → netto €1.530,00
+// Usiamo le aliquote effettive scalate proporzionalmente per le altre fasce
+function calcNettoReale(lordo) {
+  // Contributi lavoratore: IVS 5.84% + FIS 0.26667% + CIGS 0.30%
+  const baseContr = Math.ceil(lordo); // INPS arrotonda all'euro
+  const ivs = baseContr * 0.0584;
+  const fis = baseContr * 0.0026667;
+  const cigs = baseContr * 0.003;
+  const totContrib = ivs + fis + cigs;
+
+  // Imponibile IRPEF (dalla busta: 1.769,56 - 103,37 - 4,72 - 5,31 = ~1.656,16 + ticket 8)
+  // Ma il ticket non incide sull'imponibile; si calcola: lordo - IVS - FIS - CIGS + eventuali
+  const imponibile = lordo - ivs - fis - cigs;
+  const annuo = imponibile * 12;
+
+  // IRPEF progressiva 2024
+  let irpefAnnua = 0;
+  if (annuo <= 15000) irpefAnnua = annuo * 0.23;
+  else if (annuo <= 28000) irpefAnnua = 3450 + (annuo - 15000) * 0.25;
+  else if (annuo <= 50000) irpefAnnua = 6700 + (annuo - 28000) * 0.35;
+  else irpefAnnua = 14400 + (annuo - 50000) * 0.43;
+
+  // Detrazione da lavoro dipendente (art. 13 TUIR 2024)
+  let detLav = 0;
+  if (annuo <= 15000) detLav = 1880 + 690 * ((15000 - annuo) / 15000);
+  else if (annuo <= 28000) detLav = 1910 + (annuo <= 23000 ? 470 * ((28000 - annuo) / 5000) : 0);
+  // semplificazione: usiamo il valore medio effettivo della busta
+  detLav = annuo <= 28000 ? 1910 * Math.max(0, (28000 - annuo) / 20000) + 1910 * 0.15 : 0;
+
+  // Ulteriore detrazione L.207/2024 (per redditi 20.000-40.000)
+  let ultDet = 0;
+  if (annuo >= 20000 && annuo <= 32000) ultDet = 1099 * ((32000 - annuo) / 12000);
+  else if (annuo > 32000 && annuo <= 40000) ultDet = 0; // si azzera
+
+  const irpefNetta = Math.max(0, irpefAnnua - detLav - ultDet) / 12;
+
+  // Addizionale regionale (Lombardia 1,74% applicata come residuo mensile)
+  const addReg = (annuo * 0.0174) / 12;
+
+  const netto = lordo - totContrib - irpefNetta - addReg;
+  return Math.round(netto);
 }
 
-function renderHeader() {
+// Calibrazione: con lordo 1769.56 il risultato deve essere ~1530
+// Test: IVS = 1770*0.0584=103.37, FIS=1770*0.00267=4.72, CIGS=1770*0.003=5.31 → contrib=113.4
+// imponibile = 1769.56-113.4 = 1656.16 ✓
+// annuo = 1656.16*12 = 19873.92
+// IRPEF: 3450 + (19873.92-15000)*0.25 = 3450+1218.48 = 4668.48
+// detLav: 1910*(28000-19873.92)/20000 + 1910*0.15 = 776+286.5 = ~777 (busta: 191.95+76.71=268.66/mese)
+// → le detrazioni reali della busta sono 191.95+76.71=268.66/mese = 3223.92/anno
+// Quindi usiamo i valori reali proporzionati
+
+function calcNettoCalibrato(lordo) {
+  // Scala proporzionalmente dai valori reali della busta (I fascia = €1.769,56 → netto €1.530)
+  const referenzaLordo = 1769.56;
+  const referenzaNetto = 1530.00;
+  const referenzaContrib = 103.37 + 4.72 + 5.31; // = 113.40
+  const referenzaIRPEF = 112.26;
+  const referenzaAddReg = 8.16;
+  const referenzaTotTrattenute = referenzaContrib + referenzaIRPEF + referenzaAddReg; // = 233.82
+
+  // Per le altre fasce, contributi scalano linearmente (% fissa),
+  // IRPEF scala con la progressività
+  const baseContr = Math.ceil(lordo);
+  const contrib = baseContr * (5.84 + 0.26667 + 0.30) / 100;
+  const imponibile = lordo - contrib;
+  const annuo = imponibile * 12;
+
+  let irpefAnnua = 0;
+  if (annuo <= 15000) irpefAnnua = annuo * 0.23;
+  else if (annuo <= 28000) irpefAnnua = 3450 + (annuo - 15000) * 0.25;
+  else if (annuo <= 50000) irpefAnnua = 6700 + (annuo - 28000) * 0.35;
+  else irpefAnnua = 14400 + (annuo - 50000) * 0.43;
+
+  // Detrazioni lavoro dipendente (valore mensile reale ~191.95 per il I anno)
+  // Proporzioniamo: a €1.769,56 le detrazioni sono 191.95/1656.16 = 11.59% dell'imponibile mensile
+  const ratioDetrazione = (191.95 + 76.71) / 1656.16;
+  const detr = imponibile * ratioDetrazione;
+
+  const irpefNetta = Math.max(0, irpefAnnua / 12 - detr);
+  const addReg = (annuo * 0.0174) / 12;
+
+  return Math.round(lordo - contrib - irpefNetta - addReg);
+}
+
+// ─── RENDER ALL ───────────────────────────────────────────────────────────────
+function renderAll() {
   document.getElementById('hdr-name').textContent = state.name;
   document.getElementById('hdr-contract').textContent =
-    state.contract === 'apprendistato' ? 'Apprendistato' : 'Indeterminato';
+    state.contract==='apprendistato'
+      ? `Apprendistato · ${FASCE_APPR[state.apprYear-1].label}`
+      : 'Tempo indeterminato';
+  renderStats(); renderMonths(); renderTimeline(); renderSummary(); renderYearStrip();
+  renderContractTab();
 }
 
+// ─── TAB 1 ────────────────────────────────────────────────────────────────────
 function renderStats() {
-  const initial = getInitialDays();
-  const future = getFutureAccrual();
-  const planned = getTotalPlanned();
-  const eoy = initial + future - planned;
-
-  document.getElementById('stat-balance').textContent = initial.toFixed(1);
-  document.getElementById('stat-future').textContent = '+' + future.toFixed(1);
-  document.getElementById('stat-planned').textContent = planned.toFixed(1);
-  document.getElementById('stat-eoy').textContent = eoy.toFixed(1);
-
-  // color eoy
-  const eoyEl = document.getElementById('stat-eoy');
-  eoyEl.style.color = eoy < 0 ? 'var(--red)' : eoy < 2 ? 'var(--accent)' : 'var(--green)';
+  const i=getInitialDays(), f=getFutureAccrual(), p=getTotalPlanned(), e=i+f-p;
+  document.getElementById('stat-balance').textContent = i.toFixed(1);
+  document.getElementById('stat-future').textContent = '+'+f.toFixed(1);
+  document.getElementById('stat-planned').textContent = p.toFixed(1);
+  document.getElementById('stat-eoy').textContent = e.toFixed(1);
+  document.getElementById('stat-eoy').style.color = e<0?'var(--red)':e<2?'var(--accent)':'var(--green)';
 }
 
 function renderMonths() {
-  const list = document.getElementById('months-list');
-  list.innerHTML = '';
-  const months = getMonthsRemaining();
-
-  months.forEach((mi, idx) => {
-    const isCurrent = mi === currentMonth;
-    const balanceStart = getBalanceAtMonth(mi);
-    const accruedThisMonth = DAYS_PER_MONTH;
-    const planned = state.plannedDays[mi] || 0;
-    const balanceEnd = balanceStart + accruedThisMonth - planned;
-
-    const row = document.createElement('div');
-    row.className = 'month-row' + (isCurrent ? ' month-row-current' : '');
-
-    row.innerHTML = `
+  const list=document.getElementById('months-list'); list.innerHTML='';
+  getMonthsRemaining().forEach(mi => {
+    const isCurr=mi===currentMonth;
+    const bs=getBalanceAtMonth(mi), p=state.plannedDays[mi]||0, be=bs+DPM-p;
+    const row=document.createElement('div');
+    row.className='month-row'+(isCurr?' month-row-current':'');
+    row.innerHTML=`
       <div class="month-name">${MONTH_NAMES[mi]}<br><span class="year">${currentYear}</span></div>
       <div>
         <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Giorni di ferie</div>
         <div class="days-controls">
-          <button class="day-btn" onclick="changeDays(${mi}, -0.5)">−</button>
-          <div class="days-taken" id="days-${mi}">${planned.toFixed(1)}</div>
-          <button class="day-btn" onclick="changeDays(${mi}, +0.5)">+</button>
+          <button class="day-btn" onclick="changeDays(${mi},-0.5)">−</button>
+          <div class="days-taken" id="days-${mi}">${p.toFixed(1)}</div>
+          <button class="day-btn" onclick="changeDays(${mi},+0.5)">+</button>
           <span class="days-label">gg</span>
         </div>
-        <div style="margin-top:6px">
-          <div class="progress-bar"><div class="progress-fill" id="prog-${mi}" style="width:0%"></div></div>
-        </div>
+        <div class="progress-bar"><div id="prog-${mi}" style="height:100%;border-radius:99px;width:0%;transition:width .4s"></div></div>
       </div>
-      <div class="month-accrued">
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">Accumulo</div>
-        <div class="val">+${accruedThisMonth.toFixed(2)} gg</div>
-      </div>
-      <div class="month-balance">
-        <div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">Saldo fine mese</div>
-        <div class="val" id="bal-${mi}" style="color:${balanceEnd < 0 ? 'var(--red)' : 'var(--green)'}">
-          ${balanceEnd.toFixed(2)} gg
-        </div>
-      </div>
-    `;
-
+      <div class="month-accrued"><div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">Accumulo</div><div class="val">+${DPM.toFixed(2)} gg</div></div>
+      <div class="month-balance"><div style="font-size:10px;color:var(--text-muted);margin-bottom:2px">Saldo fine mese</div>
+        <div class="val" id="bal-${mi}" style="color:${be<0?'var(--red)':'var(--green)'}">${be.toFixed(2)} gg</div></div>`;
     list.appendChild(row);
-    updateProgressBar(mi, balanceStart + accruedThisMonth, planned);
+    updatePB(mi, bs+DPM, p);
   });
 }
 
-function updateProgressBar(mi, total, used) {
-  const el = document.getElementById(`prog-${mi}`);
-  if (!el) return;
-  const pct = total > 0 ? Math.min(100, (used / total) * 100) : 0;
-  el.style.width = pct + '%';
-  el.style.background = pct > 80 ? 'var(--red)' : pct > 50 ? 'var(--accent)' : 'var(--green)';
+function updatePB(mi, total, used) {
+  const el=document.getElementById('prog-'+mi); if(!el) return;
+  const pct=total>0?Math.min(100,(used/total)*100):0;
+  el.style.width=pct+'%';
+  el.style.background=pct>80?'var(--red)':pct>50?'var(--accent)':'var(--green)';
 }
 
-function changeDays(monthIdx, delta) {
-  const current = state.plannedDays[monthIdx] || 0;
-  const newVal = Math.max(0, current + delta);
-  state.plannedDays[monthIdx] = parseFloat(newVal.toFixed(1));
-  refreshAll();
-}
-
-function refreshAll() {
+function changeDays(mi, delta) {
+  state.plannedDays[mi]=parseFloat(Math.max(0,(state.plannedDays[mi]||0)+delta).toFixed(1));
   renderStats();
-  // update each month row values
-  const months = getMonthsRemaining();
-  months.forEach(mi => {
-    const planned = state.plannedDays[mi] || 0;
-    const balanceStart = getBalanceAtMonth(mi);
-    const balanceEnd = balanceStart + DAYS_PER_MONTH - planned;
-    const dEl = document.getElementById(`days-${mi}`);
-    const bEl = document.getElementById(`bal-${mi}`);
-    if (dEl) dEl.textContent = planned.toFixed(1);
-    if (bEl) {
-      bEl.textContent = balanceEnd.toFixed(2) + ' gg';
-      bEl.style.color = balanceEnd < 0 ? 'var(--red)' : 'var(--green)';
-    }
-    updateProgressBar(mi, balanceStart + DAYS_PER_MONTH, planned);
+  getMonthsRemaining().forEach(m=>{
+    const p=state.plannedDays[m]||0, bs=getBalanceAtMonth(m), be=bs+DPM-p;
+    const dEl=document.getElementById('days-'+m), bEl=document.getElementById('bal-'+m);
+    if(dEl) dEl.textContent=p.toFixed(1);
+    if(bEl){bEl.textContent=be.toFixed(2)+' gg';bEl.style.color=be<0?'var(--red)':'var(--green)';}
+    updatePB(m, bs+DPM, p);
   });
-  renderSummary();
-  renderYearStrip();
+  renderSummary(); renderYearStrip();
 }
 
 function renderTimeline() {
-  const container = document.getElementById('timeline');
-  container.innerHTML = '';
-  const today = new Date();
-
-  CLOSURES.forEach(c => {
-    const cDate = new Date(c.date);
-    const isPast = cDate < today;
-    const diffDays = Math.ceil((cDate - today) / (1000 * 60 * 60 * 24));
-    const isSoon = !isPast && diffDays <= 30;
-
-    const cls = isPast ? 'past' : isSoon ? 'soon' : 'future';
-    const tagClass = c.type === 'chiusura' ? 'tag-chiusura' : c.type === 'ponte' ? 'tag-ponte' : 'tag-festivita';
-    const tagLabel = c.type === 'chiusura' ? 'Chiusura' : c.type === 'ponte' ? 'Ponte' : 'Festività';
-
-    let dateStr = formatDate(c.date);
-    if (c.endDate) dateStr += ' → ' + formatDate(c.endDate);
-
-    const status = isPast ? '✓ Passata' : isSoon ? `Fra ${diffDays} giorni` : '';
-
-    container.innerHTML += `
-      <div class="timeline-item ${cls}">
-        <div class="timeline-dot">${c.icon}</div>
-        <div class="timeline-content">
-          <div class="timeline-title">${c.title}</div>
-          <div class="timeline-date">${dateStr} · ${c.days} ${c.days === 1 ? 'giorno' : 'giorni'}</div>
-          <span class="timeline-tag ${tagClass}">${tagLabel}</span>
-          ${status ? `<span style="font-size:11px;color:var(--text-muted);margin-left:8px">${status}</span>` : ''}
-        </div>
-      </div>
-    `;
+  const c=document.getElementById('timeline'); c.innerHTML='';
+  CLOSURES.forEach(cl=>{
+    const d=new Date(cl.date), isPast=d<now;
+    const diff=Math.ceil((d-now)/864e5);
+    const cls=isPast?'past':diff<=30?'soon':'future';
+    const tCls=cl.type==='chiusura'?'tag-chiusura':cl.type==='ponte'?'tag-ponte':'tag-festivita';
+    const tLbl=cl.type==='chiusura'?'Chiusura':cl.type==='ponte'?'Ponte':'Festività';
+    let ds=fmtDate(cl.date); if(cl.endDate) ds+=' → '+fmtDate(cl.endDate);
+    const st=isPast?'✓ Passata':diff<=30?`Fra ${diff} giorni`:'';
+    c.innerHTML+=`<div class="timeline-item ${cls}">
+      <div class="timeline-dot">${cl.icon}</div>
+      <div class="timeline-content">
+        <div class="timeline-title">${cl.title}</div>
+        <div class="timeline-date">${ds} · ${cl.days} ${cl.days===1?'giorno':'giorni'}</div>
+        <span class="timeline-tag ${tCls}">${tLbl}</span>
+        ${st?`<span style="font-size:11px;color:var(--text-muted);margin-left:8px">${st}</span>`:''}
+      </div></div>`;
   });
 }
 
-function formatDate(str) {
-  const d = new Date(str);
-  return d.toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
-}
+function fmtDate(s){return new Date(s).toLocaleDateString('it-IT',{day:'numeric',month:'long'});}
 
 function renderSummary() {
-  const initial = getInitialDays();
-  const future = getFutureAccrual();
-  const planned = getTotalPlanned();
-  const eoy = initial + future - planned;
-  const total = initial + future;
-  const pct = total > 0 ? Math.round((planned / total) * 100) : 0;
-
-  document.getElementById('ps-initial').textContent = initial.toFixed(2) + ' gg';
-  document.getElementById('ps-future').textContent = '+' + future.toFixed(2) + ' gg';
-  document.getElementById('ps-used').textContent = '−' + planned.toFixed(2) + ' gg';
-  document.getElementById('ps-eoy').textContent = eoy.toFixed(2) + ' gg';
-  document.getElementById('ps-eoy').className = 'ps-row-val ' + (eoy < 0 ? 'negative' : eoy < 2 ? 'accent' : 'positive');
-
-  document.getElementById('donut-pct').textContent = pct + '%';
-
-  // donut
-  const circumference = 326.7;
-  const offset = circumference - (pct / 100) * circumference;
-  document.getElementById('donut-fill').style.strokeDashoffset = offset;
-  document.getElementById('donut-fill').style.stroke = pct > 80 ? 'var(--red)' : pct > 50 ? 'var(--accent)' : 'var(--green)';
+  const i=getInitialDays(),f=getFutureAccrual(),p=getTotalPlanned(),e=i+f-p;
+  const tot=i+f, pct=tot>0?Math.round((p/tot)*100):0;
+  document.getElementById('ps-initial').textContent=i.toFixed(2)+' gg';
+  document.getElementById('ps-future').textContent='+'+f.toFixed(2)+' gg';
+  document.getElementById('ps-used').textContent='−'+p.toFixed(2)+' gg';
+  document.getElementById('ps-eoy').textContent=e.toFixed(2)+' gg';
+  document.getElementById('ps-eoy').className='ps-row-val '+(e<0?'negative':e<2?'accent':'positive');
+  document.getElementById('donut-pct').textContent=pct+'%';
+  document.getElementById('donut-fill').style.strokeDashoffset=326.7-(pct/100)*326.7;
+  document.getElementById('donut-fill').style.stroke=pct>80?'var(--red)':pct>50?'var(--accent)':'var(--green)';
 }
 
 function renderYearStrip() {
-  const container = document.getElementById('year-strip');
-  container.innerHTML = '';
-  const months = getMonthsRemaining();
-
-  months.forEach(mi => {
-    const planned = state.plannedDays[mi] || 0;
-    const maxDay = 5; // visual max
-    const pct = Math.min(100, (planned / maxDay) * 100);
-    const balStart = getBalanceAtMonth(mi);
-    const balEnd = balStart + DAYS_PER_MONTH - planned;
-
-    const row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;gap:12px;';
-
-    const barColor = balEnd < 0 ? 'var(--red)' : planned > 0 ? 'var(--accent)' : 'var(--bg3)';
-
-    row.innerHTML = `
-      <span style="font-size:12px;color:var(--text-muted);width:70px;flex-shrink:0">${MONTH_NAMES[mi].slice(0,3)}</span>
+  const c=document.getElementById('year-strip'); c.innerHTML='';
+  const hdr=document.createElement('div');
+  hdr.style.cssText='display:flex;gap:12px;font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px';
+  hdr.innerHTML='<span style="width:70px;flex-shrink:0">Mese</span><span style="flex:1">Utilizzo</span><span style="width:40px;text-align:right">Ferie</span><span style="width:55px;text-align:right">Saldo</span>';
+  c.appendChild(hdr);
+  getMonthsRemaining().forEach(mi=>{
+    const p=state.plannedDays[mi]||0, pct=Math.min(100,(p/5)*100);
+    const be=getBalanceAtMonth(mi)+DPM-p;
+    const col=be<0?'var(--red)':p>0?'var(--accent)':'var(--bg3)';
+    const r=document.createElement('div'); r.style.cssText='display:flex;align-items:center;gap:12px';
+    r.innerHTML=`<span style="font-size:12px;color:var(--text-muted);width:70px;flex-shrink:0">${MONTH_NAMES[mi].slice(0,3)}</span>
       <div style="flex:1;height:10px;background:var(--bg3);border-radius:99px;border:1px solid var(--border);overflow:hidden">
-        <div style="height:100%;width:${pct}%;background:${barColor};border-radius:99px;transition:width 0.4s"></div>
+        <div style="height:100%;width:${pct}%;background:${col};border-radius:99px;transition:width .4s"></div>
       </div>
-      <span style="font-size:12px;color:var(--text-dim);width:40px;text-align:right">${planned > 0 ? planned.toFixed(1) + ' gg' : '—'}</span>
-      <span style="font-size:11px;width:55px;text-align:right;color:${balEnd < 0 ? 'var(--red)' : 'var(--text-muted)'}">${balEnd.toFixed(1)} gg</span>
-    `;
-    container.appendChild(row);
+      <span style="font-size:12px;color:var(--text-dim);width:40px;text-align:right">${p>0?p.toFixed(1)+' gg':'—'}</span>
+      <span style="font-size:11px;width:55px;text-align:right;color:${be<0?'var(--red)':'var(--text-muted)'}">${be.toFixed(1)} gg</span>`;
+    c.appendChild(r);
+  });
+}
+
+// ─── TAB 2 ────────────────────────────────────────────────────────────────────
+function renderContractTab() {
+  const isAppr = state.contract==='apprendistato';
+  document.getElementById('section-apprendistato').style.display = isAppr?'block':'none';
+  document.getElementById('section-indeterminato').style.display = isAppr?'none':'block';
+
+  if (isAppr) renderApprTab();
+  else renderIndetTab();
+}
+
+function renderApprTab() {
+  const activeIdx = state.apprYear - 1;
+  const sc = document.getElementById('salary-cards'); sc.innerHTML='';
+  const comp = document.getElementById('salary-comparison'); comp.innerHTML='';
+  const bustaDet = document.getElementById('busta-detail');
+  const bustaNote = document.getElementById('busta-note');
+
+  FASCE_APPR.forEach((f, i) => {
+    const lordo = Math.round(TABELLARE_100 * f.pct / 100 * 100) / 100;
+    const netto = calcNettoCalibrato(lordo);
+    const lordoAnnuo = Math.round(lordo * MENSILITA);
+    // Netto annuo: 12 mesi netto + 13ª (approssimazione: tassazione tredicesima ~uguale)
+    const nettoAnnuo = Math.round(netto * 12 + calcNettoCalibrato(lordo));
+    const tfr = Math.round(lordo * MENSILITA / 13.5 * 100) / 100; // 1/13.5 della retrib. annua
+    const isActive = i === activeIdx;
+
+    // Calcola dettaglio trattenute per fascia attiva
+    const baseContr = Math.ceil(lordo);
+    const ivs = Math.round(baseContr * 5.84) / 100;
+    const fis_c = Math.round(baseContr * 0.26667) / 100;
+    const cigs_c = Math.round(baseContr * 0.30) / 100;
+    const contrib = ivs + fis_c + cigs_c;
+    const impIRPEF = lordo - contrib;
+    const annuoImp = impIRPEF * 12;
+    let irpefLorda = 0;
+    if (annuoImp <= 15000) irpefLorda = annuoImp * 0.23;
+    else if (annuoImp <= 28000) irpefLorda = 3450 + (annuoImp-15000)*0.25;
+    else irpefLorda = 6700 + (annuoImp-28000)*0.35;
+    const irpefLordaMens = irpefLorda / 12;
+    const detLavMens = impIRPEF * 0.16162; // dal rapporto reale busta (268.66/1656.16)
+    const irpefNettaMens = Math.max(0, irpefLordaMens - detLavMens);
+    const addRegMens = (annuoImp * 0.0174) / 12;
+
+    // Salary card
+    const card = document.createElement('div');
+    card.className = `salary-card ${f.color}${isActive?' active-year':''}`;
+    card.innerHTML = `
+      ${isActive?'<div class="active-badge">✦ Anno in corso</div>':''}
+      <div class="sc-year-label">${f.label}</div>
+      <span class="sc-pct-badge">${f.pct}%</span>
+      <div class="sc-pct-sub">del tabellare (base €${TABELLARE_100.toFixed(2)})</div>
+      <div class="sc-divider"></div>
+      <div class="sc-row"><span class="sc-row-label">Lordo mensile</span><span class="sc-row-val lordo">€ ${lordo.toFixed(2)}</span></div>
+      <div class="sc-row"><span class="sc-row-label">Netto mensile stimato</span><span class="sc-row-val netto">≈ € ${netto.toLocaleString('it-IT')}</span></div>
+      <div class="sc-row"><span class="sc-row-label">13ª mensilità (lordo)</span><span class="sc-row-val tredicesima">€ ${lordo.toFixed(2)}</span></div>
+      <div class="sc-divider"></div>
+      <div class="sc-row"><span class="sc-row-label">Lordo annuo (×13)</span><span class="sc-row-val lordo">€ ${lordoAnnuo.toLocaleString('it-IT')}</span></div>
+      <div class="sc-row"><span class="sc-row-label">Netto annuo stimato</span><span class="sc-row-val netto">≈ € ${nettoAnnuo.toLocaleString('it-IT')}</span></div>`;
+    sc.appendChild(card);
+
+    // Barra confronto
+    const maxLordo = Math.round(TABELLARE_100 * MENSILITA);
+    const pctBar = Math.round((Math.round(lordo * MENSILITA) / maxLordo) * 100);
+    comp.innerHTML += `
+      <div style="padding:14px 16px;background:${isActive?'rgba(201,169,110,.05)':'var(--bg3)'};border:1px solid ${isActive?'var(--accent)':'var(--border)'};border-radius:var(--radius-sm)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <span style="font-size:13px;font-weight:600">${f.label} — ${f.pct}%
+            ${isActive?'<span style="font-size:10px;color:var(--accent);padding:2px 8px;background:var(--accent-soft);border-radius:20px;margin-left:6px">✦ Attivo</span>':''}</span>
+          <div style="display:flex;gap:20px">
+            <span style="font-size:12px;color:var(--text-dim)">Lordo: <strong style="color:var(--text)">€${Math.round(lordo*MENSILITA).toLocaleString('it-IT')}/anno</strong></span>
+            <span style="font-size:12px;color:var(--text-dim)">Netto: <strong style="color:${f.colVar}">≈ €${nettoAnnuo.toLocaleString('it-IT')}/anno</strong></span>
+          </div>
+        </div>
+        <div class="progress-bar" style="height:8px">
+          <div style="height:100%;width:${pctBar}%;background:${f.colVar};border-radius:99px;transition:width .4s"></div>
+        </div>
+      </div>`;
+
+    // Dettaglio busta fascia attiva
+    if (isActive) {
+      bustaDet.innerHTML = `
+        <div class="ci-row"><span class="ci-label">Lordo mensile (base)</span><span class="ci-val">€ ${lordo.toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">Contributo IVS lavoratore (5,84%)</span><span class="ci-val" style="color:var(--red)">− € ${ivs.toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">FIS (0,267%) + CIGS (0,30%)</span><span class="ci-val" style="color:var(--red)">− € ${(fis_c+cigs_c).toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">Imponibile IRPEF</span><span class="ci-val">€ ${impIRPEF.toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">IRPEF lorda</span><span class="ci-val" style="color:var(--red)">− € ${irpefLordaMens.toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">Detrazioni lav.dip. + L.207/24</span><span class="ci-val" style="color:var(--green)">+ € ${detLavMens.toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">IRPEF netta mensile</span><span class="ci-val" style="color:var(--red)">− € ${irpefNettaMens.toFixed(2)}</span></div>
+        <div class="ci-row"><span class="ci-label">Addizionale regionale (Lombardia)</span><span class="ci-val" style="color:var(--red)">≈ − € ${addRegMens.toFixed(2)}</span></div>`;
+      bustaNote.innerHTML = `💡 Per il <strong>${f.label} (${f.pct}%)</strong> il netto stimato è <strong>≈ € ${netto.toLocaleString('it-IT')}/mese</strong>. I valori sono calibrati sulla busta paga reale. Ticket restaurant (quando previsti), eventuali anticipi TFR e addizionale comunale non sono inclusi nel calcolo.`;
+    }
+  });
+}
+
+function renderIndetTab() {
+  // Tabella livelli
+  const tbody = document.getElementById('indet-table-body');
+  tbody.innerHTML = '';
+  LIVELLI_INDET.forEach(l => {
+    const totMens = l.base + l.cont;
+    const lordoAnnuo = Math.round(totMens * MENSILITA);
+    const isV = l.lv === 'V';
+    tbody.innerHTML += `<tr style="border-bottom:1px solid var(--border);${isV?'background:rgba(201,169,110,.04)':''}">
+      <td style="padding:10px 12px;font-weight:700;color:${isV?'var(--accent)':'var(--text)'}">${l.lv}</td>
+      <td style="padding:10px 12px;color:var(--text-dim);font-size:12px">${l.qual}</td>
+      <td style="padding:10px 12px;text-align:right;font-weight:600;color:var(--text)">€ ${totMens.toFixed(2)}</td>
+      <td style="padding:10px 12px;text-align:right;font-weight:600;color:${isV?'var(--accent)':'var(--text-dim)'}">€ ${lordoAnnuo.toLocaleString('it-IT')}</td>
+    </tr>`;
   });
 
-  // header
-  const hdr = document.createElement('div');
-  hdr.style.cssText = 'display:flex;gap:12px;font-size:10px;color:var(--text-muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;';
-  hdr.innerHTML = `
-    <span style="width:70px;flex-shrink:0">Mese</span>
-    <span style="flex:1">Utilizzo</span>
-    <span style="width:40px;text-align:right">Ferie</span>
-    <span style="width:55px;text-align:right">Saldo</span>
-  `;
-  container.prepend(hdr);
+  // Barre progressione V livello
+  const progEl = document.getElementById('progressione-bars');
+  progEl.innerHTML = '';
+  const baseV = LIVELLI_INDET[4].base + LIVELLI_INDET[4].cont; // 898.49+535.06=1433.55
+  const incremento = 50;
+  const maxScenario = baseV + 4 * incremento;
+  for (let sc = 0; sc <= 4; sc++) {
+    const lordo = Math.round((baseV + sc * incremento) * 100) / 100;
+    const pct = Math.round((lordo / maxScenario) * 100);
+    const label = sc === 0 ? 'Base' : `+${sc} scatt${sc>1?'i':'o'} (max ${sc===4?'✓':''})`;
+    progEl.innerHTML += `
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+        <span style="font-size:12px;color:var(--text-muted);width:110px;flex-shrink:0">${label}</span>
+        <div style="flex:1;height:10px;background:var(--bg3);border-radius:99px;border:1px solid var(--border);overflow:hidden">
+          <div style="height:100%;width:${pct}%;background:${sc===4?'var(--green)':sc>=2?'var(--accent)':'var(--text-muted)'};border-radius:99px;transition:width .4s"></div>
+        </div>
+        <span style="font-size:12px;font-weight:600;color:${sc===4?'var(--green)':sc>=2?'var(--accent)':'var(--text-dim)'};width:60px;text-align:right">€${Math.round(lordo).toLocaleString('it-IT')}</span>
+      </div>`;
+  }
 }
 </script>
 </body>
