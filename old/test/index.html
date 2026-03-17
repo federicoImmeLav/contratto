@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Ferie</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- MODALE DI INSERIMENTO DATI -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2>Inserisci i tuoi dati</h2>
+
+      <label>Nome e Cognome:</label>
+      <input type="text" id="nomeCognome" placeholder="Mario Rossi">
+
+      <label>Tipo di contratto:</label>
+      <select id="tipoContratto">
+        <option value="apprendistato">Apprendistato</option>
+        <option value="indeterminato">Indeterminato</option>
+      </select>
+
+      <label>Ore di ferie accumulate fino ad ora:</label>
+      <input type="number" id="oreFerie" placeholder="Es: 120">
+
+      <label>Ore di ferie accumulate al mese:</label>
+      <input type="number" id="oreMensili" placeholder="Es: 18.67">
+
+      <label>Permessi jolly:</label>
+      <input type="number" id="permessiJolly" placeholder="Es: 3">
+
+      <button id="salvaDati">Salva e apri dashboard</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="dashboard hidden">
+    <h1>Benvenuto, <span id="userName"></span></h1>
+    <p>Mese corrente: <span id="currentMonth"></span></p>
+    <p>Ore totali residue: <span id="totFerieResidue"></span></p>
+    <p>Giorni totali residui: <span id="totGiorniResidui"></span></p>
+    <p>Permessi jolly disponibili: <span id="totPermessi"></span></p>
+
+    <h2>Grafico ferie mese per mese (clicca su un mese per aggiornare)</h2>
+    <canvas id="ferieChart" width="400" height="200"></canvas>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
