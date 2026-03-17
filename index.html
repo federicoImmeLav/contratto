@@ -527,7 +527,7 @@
                 <tbody id="indet-table-body"></tbody>
               </table>
             </div>
-            <div class="info-note" style="margin-top:16px">Valori di paga base da Tab. 1-bis CCNL (in vigore dal 01/01/2002 con adeguamenti). La retribuzione reale include anche indennità di contingenza (Tab. 2), retribuzione individuale di anzianità e progressione economica orizzontale (fino a 4 incrementi da €50/mese al V livello).</div>
+            <div class="info-note" style="margin-top:16px">Valori di paga base da Tab. 1-bis CCNL (in vigore dal 01/01/2002 con adeguamenti). La retribuzione reale include anche indennità di contingenza (Tab. 2), retribuzione individuale di anzianità e progressione economica orizzontale (fino a 4 incrementi da €55/mese al V livello).</div>
           </div>
         </div>
 
@@ -536,7 +536,7 @@
           <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--green-soft);color:var(--green)">📈</span>Progressione economica orizzontale — Art. 29 lett. D/E</div></div>
           <div class="section-body">
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:16px">
-              <div class="ci-row"><span class="ci-label">Incremento per scatto (V livello)</span><span class="ci-val" style="color:var(--green)">+ €50,00 / mese</span></div>
+              <div class="ci-row"><span class="ci-label">Incremento per scatto (V livello)</span><span class="ci-val" style="color:var(--green)">+ €55,00 / mese</span></div>
               <div class="ci-row"><span class="ci-label">Numero massimo di scatti</span><span class="ci-val">4 scatti (= +€200/mese max)</span></div>
               <div class="ci-row"><span class="ci-label">Crediti per ogni scatto</span><span class="ci-val">10 crediti</span></div>
               <div class="ci-row"><span class="ci-label">Come maturare crediti</span><span class="ci-val">Attività in sedi diverse, rientri serali, aree operative differenti (≥100h)</span></div>
@@ -1122,7 +1122,7 @@ function renderIndetTab() {
   const progEl = document.getElementById('progressione-bars');
   progEl.innerHTML = '';
   const baseV = LIVELLI_INDET[4].base + LIVELLI_INDET[4].cont; // 898.49+535.06=1433.55
-  const incremento = 50;
+  const incremento = 55;
   const maxScenario = baseV + 4 * incremento;
   for (let sc = 0; sc <= 4; sc++) {
     const lordo = Math.round((baseV + sc * incremento) * 100) / 100;
