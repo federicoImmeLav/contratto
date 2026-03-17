@@ -204,6 +204,138 @@
 
   @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
   ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE MOBILE (≤ 600px)
+  ══════════════════════════════════════════ */
+  @media(max-width:600px){
+
+    /* Onboarding */
+    .onboard-card{padding:32px 20px}
+    .onboard-title{font-size:26px}
+    .onboard-sub{margin-bottom:28px}
+    /* Anno apprendistato: impila su mobile */
+    .toggle-group[style*="1fr 1fr 1fr"]{grid-template-columns:1fr!important}
+
+    /* Header: compatto, mostra logo + badge */
+    .header{padding:10px 16px}
+    .header-left{gap:8px}
+    .header-logo{font-size:16px}
+    .header-sep{display:none}
+    .header-name{display:none}
+    .header-badge{display:inline-block;font-size:10px;padding:3px 8px}
+    .reset-btn{font-size:11px;padding:5px 10px}
+
+    /* Tabs */
+    .tabs-bar{padding:12px 16px 0;gap:2px}
+    .tab-btn{padding:8px 12px 10px;font-size:12px}
+
+    /* Main padding */
+    .main{padding:16px}
+
+    /* Stat cards: 2 colonne su mobile */
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+    .stat-card{padding:16px 14px}
+    .stat-value{font-size:28px}
+    .stat-label{font-size:9px;letter-spacing:1.5px;margin-bottom:8px}
+
+    /* Section */
+    .section-header{padding:14px 16px 12px}
+    .section-title{font-size:15px!important}
+    .section-body{padding:14px 16px}
+
+    /* Month rows: layout a 2 colonne, saldo visibile */
+    .month-row{
+      grid-template-columns:1fr 1fr;
+      grid-template-rows:auto auto;
+      gap:8px 12px;
+      padding:12px 14px;
+    }
+    .month-name{grid-column:1;grid-row:1;align-self:center}
+    .month-accrued{grid-column:2;grid-row:1;text-align:right;align-self:center}
+    .month-row > div:nth-child(2){grid-column:1 / -1;grid-row:2}
+    .month-balance{grid-column:1 / -1;grid-row:3;display:flex;justify-content:flex-end;align-items:center;gap:6px;padding-top:2px}
+    .month-balance::before{content:'Saldo fine mese:';font-size:10px;color:var(--text-muted)}
+    .month-balance .val{font-size:13px}
+
+    /* Mostra saldo inline nei controlli */
+    .days-controls{flex-wrap:wrap;gap:6px}
+    .days-taken{font-size:20px}
+
+    /* Timeline */
+    .timeline-item{gap:12px}
+    .timeline-content{overflow:hidden}
+    .timeline-title{font-size:13px}
+
+    /* Donut: centra e riduce */
+    .ps-arc-wrap{margin-bottom:14px}
+    .ps-donut{width:120px;height:120px}
+    .ps-donut svg{width:120px;height:120px}
+    .ps-pct{font-size:22px}
+
+    /* Permessi: nasconde colonna quantità su mobile molto stretto */
+    .perm-row{grid-template-columns:36px 1fr auto;gap:10px;padding:12px 12px}
+    .perm-title{font-size:13px}
+    .perm-desc{font-size:11px}
+    .perm-qty-val{font-size:18px}
+
+    /* Salary cards: 1 colonna */
+    .t2-grid-3{grid-template-columns:1fr!important}
+    .t2-grid{grid-template-columns:1fr!important}
+    .salary-card{padding:18px 16px}
+    .active-badge{font-size:9px;padding:2px 7px;top:10px;right:10px}
+
+    /* CI rows a schermo pieno */
+    .ci-row{padding:10px 12px}
+    .ci-val{font-size:13px}
+
+    /* PS rows */
+    .ps-row{padding:8px 12px}
+    .ps-row-label{font-size:12px}
+    .ps-row-val{font-size:13px}
+
+    /* Info note */
+    .info-note{font-size:11px;padding:10px 12px}
+
+    /* Tabella livelli: scroll orizzontale */
+    #indet-table{min-width:500px}
+
+    /* Progressione label width */
+    #progressione-bars span[style*="min-width"]{min-width:60px!important;font-size:11px!important}
+
+    /* Section title font */
+    .section-title{font-size:14px!important}
+  }
+
+  /* ══════════════════════════════════════════
+     TABLET (601px – 900px)
+  ══════════════════════════════════════════ */
+  @media(min-width:601px) and (max-width:900px){
+
+    .onboard-card{padding:40px 32px}
+    .header{padding:14px 20px}
+    .main{padding:20px}
+
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .content-grid{grid-template-columns:1fr}
+
+    .month-row{grid-template-columns:90px 1fr auto auto;gap:12px}
+
+    .t2-grid-3{grid-template-columns:1fr}
+    .t2-grid{grid-template-columns:1fr}
+
+    .tabs-bar{padding:12px 20px 0}
+  }
+
+  /* ══════════════════════════════════════════
+     TOUCH: pulsanti più grandi
+  ══════════════════════════════════════════ */
+  @media(hover:none) and (pointer:coarse){
+    .day-btn{width:36px;height:36px;font-size:18px}
+    .toggle-btn{padding:15px}
+    .tab-btn{padding:12px 16px 14px}
+    .reset-btn{padding:10px 16px}
+  }
 </style>
 </head>
 <body>
@@ -343,7 +475,7 @@
         <div class="section">
           <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--blue-soft);color:var(--blue)">🧾</span>Dettaglio trattenute mensili — fascia attiva</div></div>
           <div class="section-body">
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px" id="busta-detail"></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:12px" id="busta-detail"></div>
             <div class="info-note" id="busta-note"></div>
           </div>
         </div>
@@ -352,7 +484,7 @@
         <div class="section">
           <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--purple-soft);color:var(--purple)">🎓</span>Norme apprendistato — All. 2 CCNL FP</div></div>
           <div class="section-body">
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:16px">
               <div class="ci-row"><span class="ci-label">Durata contratto formativo</span><span class="ci-val">36 mesi (V livello)</span></div>
               <div class="ci-row"><span class="ci-label">Formazione esterna annua</span><span class="ci-val">140 ore — retribuite al 100%</span></div>
               <div class="ci-row"><span class="ci-label">Strutture formazione esterna</span><span class="ci-val">Accreditate D.Lgs 166/2001</span></div>
@@ -382,7 +514,7 @@
         <div class="section">
           <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--accent-soft);color:var(--accent)">📊</span>Struttura retributiva — Livelli CCNL FP</div></div>
           <div class="section-body">
-            <div style="overflow-x:auto">
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
               <table id="indet-table" style="width:100%;border-collapse:collapse;font-size:13px">
                 <thead>
                   <tr style="border-bottom:1px solid var(--border)">
@@ -403,7 +535,7 @@
         <div class="section">
           <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--green-soft);color:var(--green)">📈</span>Progressione economica orizzontale — Art. 29 lett. D/E</div></div>
           <div class="section-body">
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:16px">
               <div class="ci-row"><span class="ci-label">Incremento per scatto (V livello)</span><span class="ci-val" style="color:var(--green)">+ €50,00 / mese</span></div>
               <div class="ci-row"><span class="ci-label">Numero massimo di scatti</span><span class="ci-val">4 scatti (= +€200/mese max)</span></div>
               <div class="ci-row"><span class="ci-label">Crediti per ogni scatto</span><span class="ci-val">10 crediti</span></div>
@@ -420,7 +552,7 @@
         <div class="section">
           <div class="section-header"><div class="section-title" style="font-size:16px"><span class="icon" style="background:var(--red-soft);color:var(--red)">📋</span>Cessazione del rapporto — Art. 61–65</div></div>
           <div class="section-body">
-            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
               <div class="ci-row"><span class="ci-label">Preavviso licenziamento</span><span class="ci-val">3 mesi</span></div>
               <div class="ci-row"><span class="ci-label">Preavviso dimissioni (I–IV liv.)</span><span class="ci-val">1 mese</span></div>
               <div class="ci-row"><span class="ci-label">Preavviso dimissioni (V–IX liv.)</span><span class="ci-val">3 mesi</span></div>
@@ -931,6 +1063,7 @@ function renderApprTab() {
       <div class="sc-row"><span class="sc-row-label">Lordo mensile</span><span class="sc-row-val lordo">€ ${lordo.toFixed(2)}</span></div>
       <div class="sc-row"><span class="sc-row-label">Netto mensile stimato</span><span class="sc-row-val netto">≈ € ${netto.toLocaleString('it-IT')}</span></div>
       <div class="sc-row"><span class="sc-row-label">13ª mensilità (lordo)</span><span class="sc-row-val tredicesima">€ ${lordo.toFixed(2)}</span></div>
+      <div class="sc-row"><span class="sc-row-label">TFR mensile accantonato</span><span class="sc-row-val tfr">≈ € ${tfr.toFixed(2)}</span></div>
       <div class="sc-divider"></div>
       <div class="sc-row"><span class="sc-row-label">Lordo annuo (×13)</span><span class="sc-row-val lordo">€ ${lordoAnnuo.toLocaleString('it-IT')}</span></div>
       <div class="sc-row"><span class="sc-row-label">Netto annuo stimato</span><span class="sc-row-val netto">≈ € ${nettoAnnuo.toLocaleString('it-IT')}</span></div>`;
@@ -998,7 +1131,7 @@ function renderIndetTab() {
     const label = sc === 0 ? 'Base' : `+${sc} scatt${sc>1?'i':'o'} (max ${sc===4?'✓':''})`;
     progEl.innerHTML += `
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
-        <span style="font-size:12px;color:var(--text-muted);width:110px;flex-shrink:0">${label}</span>
+        <span style="font-size:12px;color:var(--text-muted);min-width:80px;flex-shrink:0">${label}</span>
         <div style="flex:1;height:10px;background:var(--bg3);border-radius:99px;border:1px solid var(--border);overflow:hidden">
           <div style="height:100%;width:${pct}%;background:${sc===4?'var(--green)':sc>=2?'var(--accent)':'var(--text-muted)'};border-radius:99px;transition:width .4s"></div>
         </div>
